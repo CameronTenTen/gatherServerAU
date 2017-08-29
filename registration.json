@@ -1,0 +1,12 @@
+{
+    "description": "mod for gather gamemode and server control", 
+    "devHash": "9d4ac81a8a4bad280455d7b4bb6c58a4697ce910cbc03b5d35539a3133b4a583d5061c3caf75adefb00f62f8688e3fae661e4cfed9c8b04ef79f0bef5d3c1bd8", 
+    "developer": "cameron1010", 
+    "gameID": 1, 
+    "lastBuild": "2015-07-31 19:34:39", 
+    "modID": "900881a5-5264-429f-961b-cb01b5cefb89", 
+    "name": "gather", 
+    "nameURL": "gather", 
+    "packageType": "full", 
+    "registered": "2014-08-10 11:40:26"
+}

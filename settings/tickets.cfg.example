@@ -1,0 +1,12 @@
+#config for adding tickets, only implemented for two teams, cfg read and tickets assigned on map start
+#not in a settings folder so can set desired values by changing the gather mod
+ticketsPerTeam=40;			#gives each team this amount of tickets
+ticketsPerPlayer=0;			#both teams get this number of tickets per player in the game
+ticketsPerPlayerInTeam0=0;		#gives this number of tickets per player in team 0 (blue)
+
+numBlueTickets=0;
+numRedTickets=0;
+numBlueTicketsPerPlayerInTeam=0;
+numRedTicketsPerPlayerInTeam=0;
+numBlueTicketsPerPlayerInGame=0;
+numRedTicketsPerPlayerInGame=0;

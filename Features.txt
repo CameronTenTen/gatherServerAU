@@ -1,0 +1,36 @@
+List of changes between Gather and vanilla KAG
+
+[added] - Tickets									(limit game length by allowing each team to only respawn a limted number of times)
+[added] - Gather game tracking and irc bot interaction
+[added] - Various gather chat commands and votes
+
+[changed] - Catapult stones do half damage to players				(reduce effectiveness of siege as defence)
+[changed] - Ballista Bolts do quarter damage to players				(reduce effectiveness of siege as defence)
+[changed] - Water ammo also stuns players on your own team			(so that it needs to be aimed carefully and not spammed)
+[changed] - Ballista cost from 200 to 100 coins					(make attacking cheaper/nerf camping)
+[changed] - Ballista ammo cost from 100 to 60 					(make attacking cheaper/nerf camping)
+[changed] - Ballista upgrade gold cost from 100 to 60				(make attacking cheaper/nerf camping)
+[changed] - Increased bomb cost from 25 to 30 coins				(make them less common/economy adjustment)
+[changed] - Increased water bomb cost from 30 to 35 coins			(make them less common/economy adjustment)
+[changed] - Reduced mine cost from 60 to 50 coins				(potentially make them more viable?)
+[changed] - Reduced keg cost from 120 to 100 coins				(make attacking cheaper/nerf camping)
+[changed] - Reduced fire arrow cost from 30 to 20 coins				(make attacking cheaper/nerf camping)
+[changed] - Increased blocks of bedrock spawning under the flag from 3 to 5	(more difficult to tunnel in from below)
+
+[added] - Custom GenerateFromKAGGen.as for more map variety and control
+	- map generator changes include
+		- gold always spawns under tent and in middle of map
+		- maps are mirrored to give each team the same terrain
+		- reduced dirt thickness to limit the depth of tunnelling
+
+[changed] - Increased spawn time from 10 to 15 seconds				(so there might actually time to do something before they spawn again)
+[changed] - Decreased build time from 180 seconds to 100 seconds		(gotta get matches going faster, if we have too long to build we get mega bases and cant attack)
+
+[changed] - Reduced coins for injuring enemies from 5 to 3			(economy tweak, 5 is a lot)
+[changed] - Coins no longer lost on death					(losing a ticket is already punishment enough, dont need to incentivise camping more)
+[changed] - Reduced coins lost on team kill from 50 to 0			(a gather team is communist, not capitalist (also, making this mistake already loses you a ticket))
+[changed] - Removed coin benifit of damaging siege				(encourage more agressive use)
+[changed] - All blocks that gave 4 coins now give 2				(to reduce the effectiveness of coin farming)
+[changed] - Coins on kill/damage is now scaled based on distance from your side	(encourage attackers and allow them to continue attacking)(scales linearly, multiplier of 0 at your side, 2 at enemies side, 1 in middle) (based on position of attacker because currently no way to get victim's position after death)
+[changed] - Wood given in warmup changed from 300 to 200			(reduce the size of starting structures so its possible to attack)
+[changed] - Stone given in warmup changed from 100 to 70			(reduce the size of starting structures so its possible to attack)
