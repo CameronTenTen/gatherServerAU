@@ -69,7 +69,7 @@ shared class gatherMatch
 	//constructor
 	gatherMatch(CRules@ rules){
 		id=XORRandom(1000);
-		print("id set: "+id);
+		print("GATHER SERVER STARTED");
 		isGameRunning=false;
 		this.isLive=false;
 		numPlayersReady=0;
@@ -257,11 +257,11 @@ shared class gatherMatch
 	}
 	
 	void restartMap(){
-		print("[Gather] RESTARTMAP");		//send message to restart map
+		LoadMap(getMap().getMapName());
 	}
 
 	void nextMap(){
-		print("[Gather] NEXTMAP");
+		LoadNextMap();
 	}
 	
 	void sayScore(){
