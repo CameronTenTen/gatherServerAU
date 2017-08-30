@@ -61,14 +61,8 @@ shared class gatherMatch
 	string[] resetScoreVotes;
 	int resetScoreVotesRequired=6;
 	
-	//string redTeamSeclevName = "redTeam";
-	//string blueTeamSeclevName = "blueTeam";
-
-	int id=0;
-	
 	//constructor
 	gatherMatch(CRules@ rules){
-		id=XORRandom(1000);
 		print("GATHER SERVER STARTED");
 		isGameRunning=false;
 		this.isLive=false;
