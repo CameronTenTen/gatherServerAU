@@ -98,17 +98,13 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 	//GATHER COMMANDS
 	if(text_in.substr(0,1) == "!"){
 
-if(text_in=="!pos"){
-	Vec2f playerpos = player.getBlob().getPosition();
-	print("player x: "+playerpos.x+" player y: "+playerpos.y);
-	return true;
-}
+		string inputtext = text_in.toLower();
 
 		gatherMatch@ gatherGame = getGatherObject(this);
 		if(gatherGame !is null){
 			int numSubVotesTemp=0;
 			
-			if(text_in=="!ready" || text_in=="!Ready" || text_in=="!READY" || text_in=="!r" || text_in=="!R"){
+			if(inputtext=="!ready" || inputtext=="!r"){
 				
 				if(!isInMatch(player.getUsername()) && gatherGame.isGameRunning ){
 					getNet().server_SendMsg("you cannot do that if you are not in the game "+player.getUsername());
@@ -140,7 +136,7 @@ if(text_in=="!pos"){
 				}
 
 				
-			}else if(text_in=="!unready" || text_in=="!Unready" || text_in=="!UnReady" || text_in=="!UNREADY" || text_in=="!u" || text_in=="!U" || text_in=="!ur" || text_in=="!UR"){
+			}else if(inputtext=="!unready" || inputtext=="!u" || inputtext=="!ur"){
 
 				if(!isInMatch(player.getUsername()) && gatherGame.isGameRunning){
 					getNet().server_SendMsg("you cannot do that if you are not in the game "+player.getUsername());
@@ -158,7 +154,7 @@ if(text_in=="!pos"){
 					getNet().server_SendMsg(player.getUsername() + " is no longer ready (" +gatherGame.numPlayersReady+"/"+gatherGame.numPlayers+" left)");
 					return true;
 				}
-			}else if(text_in=="!restart" || text_in=="!Restart"){
+			}else if(inputtext=="!restart"){
 
 				if(!isInMatch(player.getUsername()) && gatherGame.isGameRunning){
 					getNet().server_SendMsg("you cannot do that if you are not in the game "+player.getUsername());
@@ -182,24 +178,24 @@ if(text_in=="!pos"){
 					getNet().server_SendMsg("you have already requested a restart "+player.getUsername());
 					return true;
 				}
-			}else if(text_in=="!wr" || text_in=="!who_ready" || text_in=="!whoReady" || text_in=="!WR" || text_in=="!Who_Ready"){
+			}else if(inputtext=="!wr" || inputtext=="!who_ready" || inputtext=="!whoready"){
 				if(gatherGame.isLive){
 					getNet().server_SendMsg("round is already live!");
 					return true;
 				}
 				gatherGame.whoReady();
 				return true;
-			}else if(text_in=="!wnr" || text_in=="!who_not_ready" || text_in=="!whoNotReady" || text_in=="!WNR" || text_in=="!Who_Not_Ready" || text_in=="!whonotready" ){
+			}else if(inputtext=="!wnr" || inputtext=="!who_not_ready" || inputtext=="!whonotready" ){
 				if(gatherGame.isLive){
 					getNet().server_SendMsg("round is already live!");
 					return true;
 				}
 				gatherGame.whoNotReady();
 				return true;
-			}else if(text_in=="!score" || text_in=="!Score" || text_in=="!SCORE"){
+			}else if(inputtext=="!score"){
 				gatherGame.sayScore();
 				return true;
-			}else if(text_in=="!teams" || text_in=="!Teams" || text_in=="!TEAMS"){
+			}else if(inputtext=="!teams"){
 				string[]@ bluePlayers;
 				string[]@ redPlayers;
 				if(!getRules().get("blueTeam", @bluePlayers) || bluePlayers is null){
@@ -223,14 +219,14 @@ if(text_in=="!pos"){
 				getNet().server_SendMsg("blue: "+blueString+"red: "+redString);
 
 				return true;
-			}else if(text_in=="!team" || text_in=="!Team" || text_in=="!TEAM"){
+			}else if(inputtext=="!team"){
 
 				if(isInTeam(0, player.getUsername())) getNet().server_SendMsg("you are in the blue team "+player.getUsername());
 				else if (isInTeam(1, player.getUsername())) getNet().server_SendMsg("you are in the red team "+player.getUsername());
 				else getNet().server_SendMsg("you are not playing in this game "+player.getUsername());
 				
 				return true;
-			}else if(text_in=="!veto" || text_in=="!Veto" || text_in=="!VETO"){
+			}else if(inputtext=="!veto"){
 
 				if(!isInMatch(player.getUsername()) && gatherGame.isGameRunning){
 					getNet().server_SendMsg("you cannot veto if you are not in the game "+player.getUsername());
@@ -251,42 +247,42 @@ if(text_in=="!pos"){
 					gatherGame.nextMap();
 				}
 				return true;
-			}else if(text_in.substr(0,5)=="!rsub" || text_in.substr(0,5)=="!Rsub" || text_in.substr(0,5)=="!RSub" || text_in.substr(0,5)=="!RSUB"){
+			}else if(inputtext.substr(0,5)=="!rsub"){
 
 				if(!isInMatch(player.getUsername()) || !gatherGame.isGameRunning){
 					getNet().server_SendMsg("you cannot do that if you are not in the game "+player.getUsername());
 					return true;
 				}
 
-				if(text_in=="!rsub" || text_in=="!Rsub" || text_in=="!RSub" || text_in=="!RSUB"){		//no player specified, sub self
+				if(inputtext=="!rsub"){		//no player specified, sub self
 					//getNet().server_SendMsg("requesting sub for "+player.getUsername());
 					gatherGame.requestSub(player.getUsername());
 					return true;
 				}
 				//numSubVotesTemp = 
-				gatherGame.addSubVote(text_in.substr(6,text_in.size()),player.getUsername());
+				gatherGame.addSubVote(inputtext.substr(6,inputtext.size()),player.getUsername());
 				/*if(numSubVotesTemp==-1){
 					getNet().server_SendMsg("You have already voted to sub this player "+player.getUsername()+"!");
 				}else{
-					getNet().server_SendMsg("sub request vote added for "+text_in.substr(6,text_in.size())+" by "+player.getUsername()+" ("+numSubVotesTemp+"/"+gatherGame.subVotesReq+")");
+					getNet().server_SendMsg("sub request vote added for "+inputtext.substr(6,inputtext.size())+" by "+player.getUsername()+" ("+numSubVotesTemp+"/"+gatherGame.subVotesReq+")");
 				}
 				if(numSubVotesTemp>=gatherGame.subVotesReq){
-					getNet().server_SendMsg("requesting sub for "+text_in.substr(6,text_in.size()));
-					gatherGame.requestSub(text_in.substr(6,text_in.size()));
+					getNet().server_SendMsg("requesting sub for "+inputtext.substr(6,inputtext.size()));
+					gatherGame.requestSub(inputtext.substr(6,inputtext.size()));
 				}*/
 				return true;
-			}else if(text_in.substr(0,4)=="!say" || text_in.substr(0,4)=="!Say" || text_in.substr(0,4)=="!SAY"){
+			}else if(inputtext.substr(0,4)=="!say"){
 				print("[Gather] SAY "+player.getUsername()+" "+ text_in.substr(5,text_in.size()));
 				return true;
-			}else if(text_in.substr(0,5)=="!link" || text_in.substr(0,5)=="!Link" || text_in.substr(0,5)=="!LINK"){
+			}else if(inputtext.substr(0,5)=="!link"){
 				print("[Gather] LINK " + text_in.substr(6,text_in.size()) + " " + player.getUsername());
-			}else if(text_in.substr(0,11)=="!forceready" || text_in.substr(0,11)=="!FORCEREADY" || text_in.substr(0,11)=="!forceReady" || text_in.substr(0,11)=="!fr" || text_in.substr(0,11)=="!FR" || text_in.substr(0,11)=="!ForceReady"){
+			}else if(inputtext.substr(0,11)=="!forceready" || inputtext.substr(0,11)=="!fr"){
 				if(player.isMod())
 					gatherGame.startRound();
 				else
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 				return true;
-			}else if(text_in.substr(0,8)=="!givewin" || text_in.substr(0,8)=="!Givewin" || text_in.substr(0,8)=="!GiveWin" || text_in.substr(0,8)=="!giveWin" || text_in.substr(0,8)=="!GIVEWIN" ){
+			}else if(inputtext.substr(0,8)=="!givewin"){
 				/*if(!player.isMod()){
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 					return true;
@@ -299,7 +295,7 @@ if(text_in=="!pos"){
 
 				int giveWinStatus;
 
-				if(text_in.substr(9,text_in.size())=="blue"){
+				if(inputtext.substr(9,inputtext.size())=="blue"){
 					if(player.isMod()){
 						if(gatherGame.roundOver(0)!=-1) gatherGame.nextMap();
 					}else{
@@ -310,7 +306,7 @@ if(text_in=="!pos"){
 							getNet().server_SendMsg("vote changed to blue");
 					}
 
-				}else if(text_in.substr(9,text_in.size())=="red"){
+				}else if(inputtext.substr(9,inputtext.size())=="red"){
 					if(player.isMod()){
 						if(gatherGame.roundOver(1)!=-1) gatherGame.nextMap();
 					}else{
@@ -321,7 +317,7 @@ if(text_in=="!pos"){
 							getNet().server_SendMsg("vote changed to red");
 					}
 
-				}else if(text_in.substr(9,text_in.size())=="draw"){
+				}else if(inputtext.substr(9,inputtext.size())=="draw"){
 					if(player.isMod()){
 						if(gatherGame.roundOver(-1)!=-1) gatherGame.nextMap();
 					}else{
@@ -341,7 +337,7 @@ if(text_in=="!pos"){
 				}
 				
 				return true;
-			}else if(text_in.substr(0,11)=="!resetScore" || text_in.substr(0,11)=="!resetscore" || text_in.substr(0,11)=="!RESETSCORE" || text_in.substr(0,11)=="!ResetScore"){
+			}else if(inputtext.substr(0,11)=="!resetScore"){
 				if(getSecurity().checkAccess_Feature(player, "admin_color")){
 
 					//do admin stuff
@@ -369,11 +365,11 @@ if(text_in=="!pos"){
 				}
 
 
-			}/*else if(text_in.substr(0,11)=="!setPlayers" || text_in.substr(0,11)=="!setplayers" || text_in.substr(0,11)=="!SETPLAYERS" ){
+			}/*else if(inputtext.substr(0,11)=="!setPlayers" || inputtext.substr(0,11)=="!setplayers" || inputtext.substr(0,11)=="!SETPLAYERS" ){
 				if(!player.isMod())
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 
-				else if(text_in.substr(12,text_in.size())=="2")
+				else if(inputtext.substr(12,inputtext.size())=="2")
 					if(gatherGame.roundOver(0)!=-1) gatherGame.nextMap();
 
 				else
@@ -381,6 +377,13 @@ if(text_in=="!pos"){
 				
 				return true;
 			}*/			//dont need this if can just force start ready as admin
+			
+			else if(inputtext=="!pos")
+			{	//for debugging
+				Vec2f playerpos = player.getBlob().getPosition();
+				print("player x: "+playerpos.x+" player y: "+playerpos.y);
+				return true;
+			}
 		}
 	}
 
