@@ -165,28 +165,55 @@ shared class gatherMatch
 	}
 	
 	void whoNotReady(){
-		string[]@ bluePlayers;
-		string[]@ redPlayers;
-		string blueNotReadyString="";
-		string redNotReadyString="";
 
-		if(!getRules().get("blueTeam", @bluePlayers) || bluePlayers is null){
-        		error("failed to get blue team players (command who not ready)");
-        		return;
+		//if no bot controlled game running, just check who is on a team and not ready
+		if(!this.isGameRunning)
+		{
+			string notReadyString="";
+			u32 len = getPlayerCount();
+			int spectatorTeamNum = getRules().getSpectatorTeamNum();
+			for (uint i = 0; i < len; i++)
+			{
+				CPlayer@ p = getPlayer(i);
+				if (p.getTeamNum() != spectatorTeamNum && !isReady(p.getUsername()))
+				{
+					notReadyString = notReadyString+" "+p.getUsername();
+				}
+				if(notReadyString == "")
+				{
+					getNet().server_SendMsg("All players on a team are ready");
+				}
+				else
+				{
+					getNet().server_SendMsg("Players not readied: " + notReadyString);
+				}
+			}
 		}
-		if(!getRules().get("redTeam", @redPlayers) || redPlayers is null){
-        		error("failed to get red team players (command who not ready)");
-        		return;
+		else
+		{
+			string[]@ bluePlayers;
+			string[]@ redPlayers;
+			string blueNotReadyString="";
+			string redNotReadyString="";
+			
+			if(!getRules().get("blueTeam", @bluePlayers) || bluePlayers is null){
+	        		error("failed to get blue team players (command who not ready)");
+	        		return;
+			}
+			if(!getRules().get("redTeam", @redPlayers) || redPlayers is null){
+	        		error("failed to get red team players (command who not ready)");
+	        		return;
+			}
+			for(int i=0;i<bluePlayers.length;i++){
+				if(!isReady(bluePlayers[i]))
+					blueNotReadyString=blueNotReadyString+" "+bluePlayers[i];
+			}
+			for(int i=0;i<redPlayers.length;i++){
+				if(!isReady(redPlayers[i]))
+					redNotReadyString=redNotReadyString+" "+redPlayers[i];
+			}
+			getNet().server_SendMsg("Players not readied: " + blueNotReadyString+redNotReadyString);
 		}
-		for(int i=0;i<bluePlayers.length;i++){
-			if(!isReady(bluePlayers[i]))
-				blueNotReadyString=blueNotReadyString+" "+bluePlayers[i];
-		}
-		for(int i=0;i<redPlayers.length;i++){
-			if(!isReady(redPlayers[i]))
-				redNotReadyString=redNotReadyString+" "+redPlayers[i];
-		}
-		getNet().server_SendMsg(blueNotReadyString+redNotReadyString);
 
 	}
 	
