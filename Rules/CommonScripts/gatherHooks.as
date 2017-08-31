@@ -405,6 +405,27 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 
 
 			}
+			else if (inputtext=="!allspec")
+			{
+				if(getSecurity().checkAccess_Feature(player, "admin_color"))
+				{
+					RulesCore@ core;
+					this.get("core", @core);
+					if (core is null)
+					{
+						warn("gatherHooks: CORE NOT FOUND ");
+						return true;
+					}
+					getNet().server_SendMsg("Sending all players to spectator!");
+					PlayerInfo@[] players = core.players;
+					u32 len = players.length;
+					for (u32 i = 0; i < len; i++)
+					{
+						core.ChangePlayerTeam(getPlayerByUsername(players[i].username), this.getSpectatorTeamNum());
+					}
+				}
+				
+			}
 				/*else if(inputtext.substr(0,11)=="!setPlayers" || inputtext.substr(0,11)=="!setplayers" || inputtext.substr(0,11)=="!SETPLAYERS" ){
 				if(!player.isMod())
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
