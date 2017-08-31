@@ -1,0 +1,17 @@
+command/aliases <required argument> [optional argument] - description
+
+!ready/!r 				- sets player as ready to start the game, when all players are ready map will be restarted and round will be live
+!unready/!u/!ur 			- sets player as no longer ready to start the game
+!restart 				- adds a vote to restart the current live round
+!whoready/!wr/!who_ready 		- returns a list of players who are ready
+!whonotready/!wnr/!who_not_ready 	- checks the current list of ready players against the player list given by the IRC bot (if no list given by bot uses players currently in a team instead)
+!score 					- returns the current match score
+!teams 					- returns the current players and teams as set by the IRC bot
+!team 					- returns the team the IRC bot put you on
+!veto 					- add veto vote to skip current map
+!rsub [playerName] 			- if no name given, requests a sub for yourself, if name is given it adds a vote to sub that player out (finding and adding a sub is handled by the IRC bot)
+!say 					- send a message to be displayed in IRC
+!link <ircname> 			- link your KAG account with your IRC account
+!forceready/!fr 			- admin only, sets all players as ready and starts live round
+!givewin <blue/red/draw> 		- adds a vote to end round and give win (only available when round is live) (admin completes vote)
+!resetscore 				- adds a vote to reset the current match score (admin completes vote)
