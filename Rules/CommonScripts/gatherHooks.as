@@ -365,7 +365,52 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				}
 
 
-			}/*else if(inputtext.substr(0,11)=="!setPlayers" || inputtext.substr(0,11)=="!setplayers" || inputtext.substr(0,11)=="!SETPLAYERS" ){
+			}else if(inputtext.substr(0,11)=="!scrambleteams"){
+				if(getSecurity().checkAccess_Feature(player, "admin_color")){
+					
+					u32 len = getPlayerCount();
+					int red = 0;
+					int blue = 0;
+					for (uint i = 0; i < (len/2); i++)
+					{
+						CPlayer@ p = getPlayer(i);
+						team = XORRandom(1);
+						p.server_setTeamNum(team);
+						if(team==0)
+						{
+							blue++;
+						}
+						else if (team==1)
+						{
+							red++;
+						}
+						
+						//if one team has half the players, put the rest in the other team
+						if(blue>=len/2)
+						{
+							for (uint j = i; j < len; i++)
+							{
+								p = getPlayer(i);
+								p.server_setTeamNum(1);
+							}
+						}
+						else if(red>=len/2)
+						{
+							for (uint j = i; j < len; i++)
+							{
+								p = getPlayer(i);
+								p.server_setTeamNum(0);
+							}
+						}
+						
+					}
+				}else{
+					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
+				}
+
+
+			}
+				/*else if(inputtext.substr(0,11)=="!setPlayers" || inputtext.substr(0,11)=="!setplayers" || inputtext.substr(0,11)=="!SETPLAYERS" ){
 				if(!player.isMod())
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 
