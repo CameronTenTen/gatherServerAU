@@ -276,7 +276,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				return true;
 			}else if(inputtext.substr(0,5)=="!link"){
 				print("[Gather] LINK " + text_in.substr(6,text_in.size()) + " " + player.getUsername());
-			}else if(inputtext.substr(0,11)=="!forceready" || inputtext.substr(0,11)=="!fr"){
+			}else if(inputtext=="!forceready" || inputtext=="!fr"){
 				if(player.isMod())
 					gatherGame.startRound();
 				else
@@ -337,7 +337,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				}
 				
 				return true;
-			}else if(inputtext.substr(0,11)=="!resetscore"){
+			}else if(inputtext=="!resetscore"){
 				if(getSecurity().checkAccess_Feature(player, "admin_color")){
 
 					//do admin stuff
@@ -363,9 +363,9 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 						}
 					}
 				}
-
-
-			}else if(inputtext.substr(0,14)=="!scrambleteams"){
+			}
+			else if(inputtext=="!scrambleteams")
+			{
 				if(getSecurity().checkAccess_Feature(player, "admin_color"))
 				{
 					RulesCore@ core;
