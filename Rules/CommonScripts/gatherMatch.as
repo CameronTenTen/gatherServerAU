@@ -173,14 +173,14 @@ shared class gatherMatch
 				{
 					notReadyString = notReadyString+" "+p.getUsername();
 				}
-				if(notReadyString == "")
-				{
-					getNet().server_SendMsg("All players on a team are ready");
-				}
-				else
-				{
-					getNet().server_SendMsg("Players not readied: " + notReadyString);
-				}
+			}
+			if(notReadyString == "")
+			{
+				getNet().server_SendMsg("All players on a team are ready");
+			}
+			else
+			{
+				getNet().server_SendMsg("Players not readied: " + notReadyString);
 			}
 		}
 		else
