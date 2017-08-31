@@ -337,7 +337,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				}
 				
 				return true;
-			}else if(inputtext.substr(0,11)=="!resetScore"){
+			}else if(inputtext.substr(0,11)=="!resetscore"){
 				if(getSecurity().checkAccess_Feature(player, "admin_color")){
 
 					//do admin stuff
