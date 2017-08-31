@@ -340,7 +340,7 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	}
 
 	if(gatherGame.isGameRunning && getTeam(player.getUsername())!=this.getSpectatorTeamNum()) putAllPlayersIntoTeams(this);
-	player.server_setTeamNum(getTeam(player.getUsername()));		//getTeam is included in gatherManageTeams and returns spec team num if not in team
+	core.ChangePlayerTeam(player, getTeam(player.getUsername()));		//getTeam is included in gatherManageTeams and returns spec team num if not in team
 
 
 	/*if (player.getTeamNum() != this.getSpectatorTeamNum())
