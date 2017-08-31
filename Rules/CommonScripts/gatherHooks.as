@@ -365,17 +365,61 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				}
 
 
-			}else if(inputtext.substr(0,11)=="!scrambleteams"){
-				if(getSecurity().checkAccess_Feature(player, "admin_color")){
+			}else if(inputtext.substr(0,14)=="!scrambleteams"){
+				print("scramble teams");
+				
+				RulesCore@ core;
+				this.get("core", @core);
+				if (core is null)
+				{
+					warn("gatherHooks: CORE NOT FOUND ");
+					return true;
+				}
+				
+				if(getSecurity().checkAccess_Feature(player, "admin_color"))
+				{
 					
-					u32 len = getPlayerCount();
+					PlayerInfo@[] players = core.players;
+					u32 len = players.length;
+					/*int team = 0;
 					int red = 0;
-					int blue = 0;
-					for (uint i = 0; i < (len/2); i++)
+					int blue = 0;*/
+					
+					//change the order of the player list
+					for (u32 i = 0; i < len; i++)
 					{
-						CPlayer@ p = getPlayer(i);
-						team = XORRandom(1);
-						p.server_setTeamNum(team);
+						uint index = XORRandom(len);
+						PlayerInfo p = players[index];
+
+						players[index] = players[i];
+						players[i] = p;
+					}
+					
+					int numTeams = this.getTeamsCount();
+					int team = XORRandom(128) % numTeams;
+
+					//now just go through the player list and alternate between each team
+					for (u32 i = 0; i < len; i++)
+					{
+						CPlayer@ p = getPlayerByUsername(players[i].username);
+				
+						//if (p.getTeamNum() != this.getSpectatorTeamNum())
+						//{
+							int tempteam = team++ % numTeams;
+							core.ChangePlayerTeam(p, tempteam);
+					print("team: " + tempteam + " playername: " + players[i].username);
+						//}
+					}
+					
+					/*for (uint i = 0; i < players.length(); i++)
+					{
+						core.ChangePlayerTeam(getPlayerByUsername(players[i].username), this.getSpectatorTeamNum());
+					}
+					for (uint i = 0; i < players.length(); i++)
+					{
+						team = XORRandom(2);
+				print("team: " + team + " playername: " + players[i].username);
+						core.ChangePlayerTeam(getPlayerByUsername(players[i].username), team);
 						if(team==0)
 						{
 							blue++;
@@ -384,26 +428,67 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 						{
 							red++;
 						}
-						
+				print("blue: " + blue + "red: " + red);
+						//if one team has half the players, put the rest in the other team
+						if(blue>=players.length()/2)
+						{
+				print("blue team full, sending to red");
+							for (uint j = 0; j < players.length(); i++)
+							{
+								if(players[j].team
+								core.ChangePlayerTeam(getPlayerByUsername(players[j].username), 1);
+							}
+						}
+						else if(red>=players.length()/2)
+						{
+				print("red team full, sending to blue");
+							for (uint j = 0; j < players.length(); i++)
+							{
+								core.ChangePlayerTeam(getPlayerByUsername(players[j].username), 0);
+							}
+						}
+					}*/
+					/*u32 len = getPlayerCount();
+					int red = 0;
+					int blue = 0;
+					int team = 0;
+					for (uint i = 0; i < (len/2); i++)
+					{
+						CPlayer@ p = getPlayer(i);
+						team = XORRandom(1);
+				print("team: " + team + "playername: " + p.getUsername());
+						//p.server_setTeamNum(team);
+						core.ChangePlayerTeam(p, team);
+						if(team==0)
+						{
+							blue++;
+						}
+						else if (team==1)
+						{
+							red++;
+						}
+				print("blue: " + blue + "red: " + red);
 						//if one team has half the players, put the rest in the other team
 						if(blue>=len/2)
 						{
+				print("blue team full, sending to red");
 							for (uint j = i; j < len; i++)
 							{
-								p = getPlayer(i);
-								p.server_setTeamNum(1);
+								CPlayer@ p1 = getPlayer(j);
+								if(p1 !is null) core.ChangePlayerTeam(p1, 1);
 							}
 						}
 						else if(red>=len/2)
 						{
+				print("red team full, sending to blue");
 							for (uint j = i; j < len; i++)
 							{
-								p = getPlayer(i);
-								p.server_setTeamNum(0);
+								CPlayer@ p1 = getPlayer(j);
+								if(p1 !is null) core.ChangePlayerTeam(p1, 0);
 							}
 						}
 						
-					}
+					}*/
 				}else{
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 				}
