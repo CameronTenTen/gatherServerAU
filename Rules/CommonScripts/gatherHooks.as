@@ -21,14 +21,21 @@ void scrambleTeams(CRules@ this, bool includeSpectators)
 		warn("gatherHooks: CORE NOT FOUND ");
 		return;
 	}
-	PlayerInfo@[] players = core.players;
-	u32 len = players.length;
+	PlayerInfo@[] playerInfos = core.players;
+	u32 len = playerInfos.length;
+	string [] players;
+	
+	//make an array of usernames
+	for (u32 i = 0; i < len; i++)
+	{
+		players.push_back(playerInfos[i].username);
+	}
 	
 	//change the order of the player list
 	for (u32 i = 0; i < len; i++)
 	{
 		uint index = XORRandom(len);
-		PlayerInfo p = players[index];
+		string p = players[index];
 
 		players[index] = players[i];
 		players[i] = p;
@@ -41,7 +48,7 @@ void scrambleTeams(CRules@ this, bool includeSpectators)
 	//now just go through the player list and alternate between each team
 	for (u32 i = 0; i < len; i++)
 	{
-		CPlayer@ p = getPlayerByUsername(players[i].username);
+		CPlayer@ p = getPlayerByUsername(players[i]);
 		
 		if (includeSpectators || p.getTeamNum() != this.getSpectatorTeamNum())
 		{
