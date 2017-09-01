@@ -32,6 +32,8 @@ shared class gatherMatch
 
 	int giveWinVotesReq=6;
 	
+	int scrambleVotesReq=8;
+	
 	bool isGameRunning;
 	bool isLive;
 	//string[] playersInMatch(numPlayers);
@@ -49,6 +51,9 @@ shared class gatherMatch
 	int numPlayersVeto;
 	int numRedPlayersReady;
 	int numBluePlayersReady;
+	
+	int numPlayersReqScramble;
+	string[] playersReqScramble(numPlayers);
 
 	giveWinVoteObj[] playersReqGiveWin;
 	int blueGiveWinVotes;
@@ -74,6 +79,7 @@ shared class gatherMatch
 		numPlayersVeto=0;
 		numRedPlayersReady=0;
 		numBluePlayersReady=0;
+		numPlayersReqScramble=0;
 
 		blueGiveWinVotes=0;
 		redGiveWinVotes=0;
@@ -102,6 +108,13 @@ shared class gatherMatch
 	bool hasVeto(string userName){
 		for(int i=0;i<numPlayersVeto;i++){
 			if(userName==playersVeto[i]) return true;
+		}
+		return false;
+	}
+	
+	bool hasReqScramble(string userName){
+		for(int i=0;i<numPlayersReqScramble;i++){
+			if(userName==playersReqScramble[i]) return true;
 		}
 		return false;
 	}
@@ -229,6 +242,15 @@ shared class gatherMatch
 		return 1;	//player has already requested restart
 	}
 	
+	int addScrambleVote(string userName){
+		if(!hasReqScramble(userName)){
+			playersReqScramble.insertAt(numPlayersReqScramble,userName);
+			numPlayersReqScramble++;
+			return 0;
+		}
+		return 1;	//player has already requested scramble
+	}
+	
 	void resetRoundVars(){
 		this.isLive=false;
 		playersReady.clear();
@@ -241,6 +263,9 @@ shared class gatherMatch
 		blueTeamReady.clear();
 		numRedPlayersReady=0;
 		numBluePlayersReady=0;
+		
+		playersReqScramble.clear();
+		numPlayersReqScramble=0;
 
 		playersReqGiveWin.clear();
 		blueGiveWinVotes=0;
@@ -265,6 +290,8 @@ shared class gatherMatch
 		blueTeamReady.clear();
 		numRedPlayersReady=0;
 		numBluePlayersReady=0;
+		playersReqScramble.clear();
+		numPlayersReqScramble=0;
 		playersReqGiveWin.clear();
 		blueGiveWinVotes=0;
 		redGiveWinVotes=0;
