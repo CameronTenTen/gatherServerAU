@@ -166,7 +166,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					return true;
 				}
 				if(gatherGame.addRestartVote(player.getUsername())==0){
-					getNet().server_SendMsg("restart vote counted for "+player.getUsername());
+					getNet().server_SendMsg("restart vote counted for "+player.getUsername()+"! (" +gatherGame.numPlayersReqRestart+"/"+gatherGame.restartVotesReq+")");
 					if(gatherGame.numPlayersReqRestart>=gatherGame.restartVotesReq){
 						getNet().server_SendMsg("Restarting Map...");
 						gatherGame.resetRoundVars();
@@ -175,7 +175,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					return true;
 					}
 				}else{
-					getNet().server_SendMsg("you have already requested a restart "+player.getUsername());
+					getNet().server_SendMsg("you have already requested a restart "+player.getUsername()+"! (" +gatherGame.numPlayersReqRestart+"/"+gatherGame.restartVotesReq+")");
 					return true;
 				}
 			}else if(inputtext=="!wr" || inputtext=="!who_ready" || inputtext=="!whoready"){
