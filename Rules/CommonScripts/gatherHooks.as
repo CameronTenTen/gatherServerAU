@@ -405,6 +405,51 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 
 
 			}
+			else if(inputtext=="!scramblenotspec")
+			{
+				if(getSecurity().checkAccess_Feature(player, "admin_color"))
+				{
+					RulesCore@ core;
+					this.get("core", @core);
+					if (core is null)
+					{
+						warn("gatherHooks: CORE NOT FOUND ");
+						return true;
+					}
+					PlayerInfo@[] players = core.players;
+					u32 len = players.length;
+					
+					//change the order of the player list
+					for (u32 i = 0; i < len; i++)
+					{
+						uint index = XORRandom(len);
+						PlayerInfo p = players[index];
+
+						players[index] = players[i];
+						players[i] = p;
+					}
+					
+					getNet().server_SendMsg("Scrambling the teams!");
+					
+					int numTeams = this.getTeamsCount();
+					int team = XORRandom(128) % numTeams;
+					//now just go through the player list and alternate between each team
+					for (u32 i = 0; i < len; i++)
+					{
+						CPlayer@ p = getPlayerByUsername(players[i].username);
+						
+						if (p.getTeamNum() != this.getSpectatorTeamNum())
+						{
+							int tempteam = team++ % numTeams;
+							core.ChangePlayerTeam(p, tempteam);
+						}
+					}
+				}else{
+					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
+				}
+
+
+			}
 			else if (inputtext=="!allspec")
 			{
 				if(getSecurity().checkAccess_Feature(player, "admin_color"))
