@@ -15,6 +15,6 @@ command/aliases <required argument> [optional argument] - description
 !forceready/!fr 			- admin only, sets all players as ready and starts live round
 !givewin <blue/red/draw> 		- adds a vote to end round and give win (only available when round is live) (admin completes vote)
 !resetscore 				- adds a vote to reset the current match score (admin completes vote)
-!scrambleteams				- shuffles the team of all players in the game
-!scramblenotspec			- shuffles the team of all players in the game (excluding players in spectator)
+!scrambleteams				- admin only, shuffles the team of all players in the game
+!scramblenotspec			- admin only, shuffles the team of all players in the game (excluding players in spectator)
 !allspec				- admin only, sends all players to spectator
