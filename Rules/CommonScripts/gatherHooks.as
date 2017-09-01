@@ -399,7 +399,9 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 						int tempteam = team++ % numTeams;
 						core.ChangePlayerTeam(p, tempteam);
 					}
-				}else{
+				}
+				else
+				{
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 				}
 
@@ -444,7 +446,9 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 							core.ChangePlayerTeam(p, tempteam);
 						}
 					}
-				}else{
+				}
+				else
+				{
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 				}
 
@@ -468,6 +472,10 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					{
 						core.ChangePlayerTeam(getPlayerByUsername(players[i].username), this.getSpectatorTeamNum());
 					}
+				}
+				else
+				{
+					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 				}
 				
 			}
