@@ -12,6 +12,45 @@ void startGathering(CRules@ this){
 	putAllPlayersIntoTeams(this);
 }
 
+void scrambleTeams(CRules@ this, bool includeSpectators)
+{
+	RulesCore@ core;
+	this.get("core", @core);
+	if (core is null)
+	{
+		warn("gatherHooks: CORE NOT FOUND ");
+		return;
+	}
+	PlayerInfo@[] players = core.players;
+	u32 len = players.length;
+	
+	//change the order of the player list
+	for (u32 i = 0; i < len; i++)
+	{
+		uint index = XORRandom(len);
+		PlayerInfo p = players[index];
+
+		players[index] = players[i];
+		players[i] = p;
+	}
+	
+	getNet().server_SendMsg("Scrambling the teams!");
+	
+	int numTeams = this.getTeamsCount();
+	int team = XORRandom(128) % numTeams;
+	//now just go through the player list and alternate between each team
+	for (u32 i = 0; i < len; i++)
+	{
+		CPlayer@ p = getPlayerByUsername(players[i].username);
+		
+		if (includeSpectators || p.getTeamNum() != this.getSpectatorTeamNum())
+		{
+			int tempteam = team++ % numTeams;
+			core.ChangePlayerTeam(p, tempteam);
+		}
+	}
+}
+
 //end of round code
 
 const string tagname = "gather round over processed";
@@ -368,91 +407,32 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 			{
 				if(getSecurity().checkAccess_Feature(player, "admin_color"))
 				{
-					RulesCore@ core;
-					this.get("core", @core);
-					if (core is null)
-					{
-						warn("gatherHooks: CORE NOT FOUND ");
-						return true;
-					}
-					PlayerInfo@[] players = core.players;
-					u32 len = players.length;
-					
-					//change the order of the player list
-					for (u32 i = 0; i < len; i++)
-					{
-						uint index = XORRandom(len);
-						PlayerInfo p = players[index];
-
-						players[index] = players[i];
-						players[i] = p;
-					}
-					
-					getNet().server_SendMsg("Scrambling the teams!");
-					
-					int numTeams = this.getTeamsCount();
-					int team = XORRandom(128) % numTeams;
-					//now just go through the player list and alternate between each team
-					for (u32 i = 0; i < len; i++)
-					{
-						CPlayer@ p = getPlayerByUsername(players[i].username);
-						int tempteam = team++ % numTeams;
-						core.ChangePlayerTeam(p, tempteam);
-					}
+					scrambleTeams(this, true);
 				}
 				else
 				{
-					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
+					//add a vote
+					if(gatherGame.addScrambleVote(player.getUsername())==1){
+						getNet().server_SendMsg("you have already voted to scramble the teams "+player.getUsername());
+					}else{
+						getNet().server_SendMsg("vote to scramble teams counted ("+gatherGame.numPlayersReqScramble+"/"+gatherGame.scrambleVotesReq+")");
+						if(gatherGame.numPlayersReqScramble >= gatherGame.scrambleVotesReq)
+						{
+							scrambleTeams(this, true);
+						}
+					}
 				}
-
-
 			}
 			else if(inputtext=="!scramblenotspec")
 			{
 				if(getSecurity().checkAccess_Feature(player, "admin_color"))
 				{
-					RulesCore@ core;
-					this.get("core", @core);
-					if (core is null)
-					{
-						warn("gatherHooks: CORE NOT FOUND ");
-						return true;
-					}
-					PlayerInfo@[] players = core.players;
-					u32 len = players.length;
-					
-					//change the order of the player list
-					for (u32 i = 0; i < len; i++)
-					{
-						uint index = XORRandom(len);
-						PlayerInfo p = players[index];
-
-						players[index] = players[i];
-						players[i] = p;
-					}
-					
-					getNet().server_SendMsg("Scrambling the teams!");
-					
-					int numTeams = this.getTeamsCount();
-					int team = XORRandom(128) % numTeams;
-					//now just go through the player list and alternate between each team
-					for (u32 i = 0; i < len; i++)
-					{
-						CPlayer@ p = getPlayerByUsername(players[i].username);
-						
-						if (p.getTeamNum() != this.getSpectatorTeamNum())
-						{
-							int tempteam = team++ % numTeams;
-							core.ChangePlayerTeam(p, tempteam);
-						}
-					}
+					scrambleTeams(this, false);
 				}
 				else
 				{
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 				}
-
-
 			}
 			else if (inputtext=="!allspec")
 			{
@@ -477,7 +457,6 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				{
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
 				}
-				
 			}
 				/*else if(inputtext.substr(0,11)=="!setPlayers" || inputtext.substr(0,11)=="!setplayers" || inputtext.substr(0,11)=="!SETPLAYERS" ){
 				if(!player.isMod())
