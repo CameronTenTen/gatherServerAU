@@ -271,8 +271,6 @@ shared class gatherMatch
 		blueGiveWinVotes=0;
 		redGiveWinVotes=0;
 		drawGiveWinVotes=0;
-
-		print("round vars reset");
 	}
 	
 	void resetGameVars(){
@@ -301,7 +299,6 @@ shared class gatherMatch
 		roundsPlayed=0;
 		playersWithSub.clear();
 		numPlayersWithSub=0;
-		print("game vars reset");
 	}
 	
 	void restartMap(){
@@ -429,12 +426,10 @@ shared class gatherMatch
 	}
 	
 	int roundOver(int winningTeam){
-		print("in gather round over code: winning team: "+winningTeam+" isLive?: "+isLive+" "+this.isLive);
 		if(!this.isLive)return -1;			//game isnt live yet
 
 		resetRoundVars();
 		roundsPlayed++;
-		print("round vars reset - rndovr");
 		if(winningTeam==0){
 			blueWins++;
 			if(blueWins<((numRounds/2)+1)) print("[Gather] Blue round won");		//check there is a real game running and the game hasnt ended (if game has ended only want game over print not round one)
