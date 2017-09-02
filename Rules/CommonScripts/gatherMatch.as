@@ -446,7 +446,7 @@ shared class gatherMatch
 		}	//if winning team == -1 its a draw
 
 		if(blueWins>=((numRounds/2)+1) || redWins>=((numRounds/2)+1)){
-			//getNet().server_SendMsg("Final score is Blue: "+blueWins+" Red: "+redWins);
+			if(numRounds>1) getNet().server_SendMsg("Final score is Blue: "+blueWins+" Red: "+redWins);
 			if(redWins>blueWins){
 				getNet().server_SendMsg("Red Team wins the game!!!");
 				print("[Gather] Red won");
