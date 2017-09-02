@@ -398,7 +398,28 @@ shared class gatherMatch
 				tempRed=tempRed+",";
 			}
 		}*/
-		print("[Gather] ROUNDSTARTED");
+		
+		u32 len = getPlayerCount();
+		int spectatorTeamNum = getRules().getSpectatorTeamNum();
+		string tempRed="red:";
+		string tempBlue="blue:";
+		for (uint i = 0; i < len; i++)
+		{
+			CPlayer@ p = getPlayer(i);
+			if (p !is null && p.getTeamNum() != spectatorTeamNum)
+			{
+				if(p.getTeamNum() == 0)
+				{
+					tempBlue = tempBlue+" "+p.getUsername();
+				}
+				else
+				{
+					tempRed = tempRed+" "+p.getUsername();
+				}
+			}
+		}
+		
+		print("[Gather] ROUNDSTARTED: "+tempBlue+" "+tempRed);
 
 		resetScoreboard();
 		getNet().server_SendMsg("The scoreboard has been reset");
