@@ -445,7 +445,7 @@ shared class gatherMatch
 		
 		}	//if winning team == -1 its a draw
 
-		//this only works if there is an odd number of rounds?
+		//TODO: this only works if there is an odd number of rounds?
 		if(blueWins>=((numRounds/2)+1) || redWins>=((numRounds/2)+1)){
 			if(numRounds>1) getNet().server_SendMsg("Final score is Blue: "+blueWins+" Red: "+redWins);
 			if(redWins>blueWins){
