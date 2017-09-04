@@ -12,10 +12,14 @@ List of changes between Gather and vanilla KAG
 [changed] - Ballista upgrade gold cost from 100 to 60				(make attacking cheaper/nerf camping)
 [changed] - Increased bomb cost from 25 to 30 coins				(make them less common/economy adjustment)
 [changed] - Increased water bomb cost from 30 to 35 coins			(make them less common/economy adjustment)
-[changed] - Reduced mine cost from 60 to 50 coins				(potentially make them more viable?)
-[changed] - Reduced keg cost from 120 to 100 coins				(make attacking cheaper/nerf camping)
+[changed] - Reduced mine cost from 60 to 30 coins				(potentially make them more viable?)
+[changed] - Reduced keg cost from 120 to 75 coins				(make attacking cheaper/nerf camping)
 [changed] - Reduced fire arrow cost from 30 to 20 coins				(make attacking cheaper/nerf camping)
+[changed] - Increased water arrow cost from 20 to 30 coins			(they gain too much value for the cost)
 [changed] - Increased blocks of bedrock spawning under the flag from 3 to 5	(more difficult to tunnel in from below)
+[changed] - Doubled sword damage against wooden doors				(wooden doors too strong for the cost)
+[changed] - Increased bomb damage against doors from x1.5 to x2			(door spam is not fun)
+[changed] - Platform Health reduced from 4.5 to 3.0				(platform spam is not fun #bringbackclassicplatforms)
 
 [added] - Custom GenerateFromKAGGen.as for more map variety and control
 	- map generator changes include
@@ -34,3 +38,12 @@ List of changes between Gather and vanilla KAG
 [changed] - Coins on kill/damage is now scaled based on distance from your side	(encourage attackers and allow them to continue attacking)(scales linearly, multiplier of 0 at your side, 2 at enemies side, 1 in middle) (based on position of attacker because currently no way to get victim's position after death)
 [changed] - Wood given in warmup changed from 300 to 200			(reduce the size of starting structures so its possible to attack)
 [changed] - Stone given in warmup changed from 100 to 70			(reduce the size of starting structures so its possible to attack)
+
+4/9/17
+Increased water arrow cost from 20 to 30 (too cheap for the value they gain)
+Decreased keg cost from 100 to 75 (rarely used)
+Decreased mine cost from 50 to 30 (never used)
+Doubled sword damage against wooden doors
+Increased bomb damage against doors from x1.5 to x2
+Platform Health reduced from 4.5 to 3.0
+
