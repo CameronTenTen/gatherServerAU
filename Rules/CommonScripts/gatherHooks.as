@@ -420,7 +420,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				{
 					//add a vote
 					if(gatherGame.addScrambleVote(player.getUsername())==1){
-						getNet().server_SendMsg("you have already voted to scramble the teams "+player.getUsername());
+						getNet().server_SendMsg("you have already voted to scramble the teams "+player.getUsername() + " ("+gatherGame.numPlayersReqScramble+"/"+gatherGame.scrambleVotesReq+")");
 					}else{
 						getNet().server_SendMsg("vote to scramble teams counted ("+gatherGame.numPlayersReqScramble+"/"+gatherGame.scrambleVotesReq+")");
 						if(gatherGame.numPlayersReqScramble >= gatherGame.scrambleVotesReq)
