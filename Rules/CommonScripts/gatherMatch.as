@@ -35,7 +35,7 @@ shared class gatherMatch
 	int scrambleVotesReq=8;
 	
 	bool isGameRunning;
-	bool isLive;
+	private bool isGameLive;
 	//string[] playersInMatch(numPlayers);
 
 	gatherPlayer[] playersReady(numPlayers);
@@ -70,7 +70,7 @@ shared class gatherMatch
 	gatherMatch(CRules@ rules){
 		print("GATHER SERVER STARTED");
 		isGameRunning=false;
-		this.isLive=false;
+		setLive(false);
 		numPlayersReady=0;
 		redWins=0;
 		blueWins=0;
@@ -89,6 +89,21 @@ shared class gatherMatch
 		
 		//get players from seclevs
 		
+	}
+	
+	void setLive(bool val)
+	{
+		this.isGameLive=val;
+		
+		//so the client can show the game status onRender()
+		CRules@ rules = getRules();
+		rules.set_bool("isLive", val);
+		rules.Sync("isLive", true);
+	}
+	
+	bool isLive()
+	{
+		return this.isGameLive;
 	}
 	
 	bool isReady(string username){
@@ -252,7 +267,7 @@ shared class gatherMatch
 	}
 	
 	void resetRoundVars(){
-		this.isLive=false;
+		setLive(false);
 		playersReady.clear();
 		playersReqRestart.clear();
 		numPlayersReady=0;
@@ -276,7 +291,7 @@ shared class gatherMatch
 	void resetGameVars(){
 		isGameRunning=false;
 		//getRules().set_bool("isGameRunning",false);
-		this.isLive=false;
+		setLive(false);
 		numPlayers=defaultNumPlayers;
 		playersReady.clear();
 		playersReqRestart.clear();
@@ -373,7 +388,7 @@ shared class gatherMatch
 	}
 	
 	void requestSub(string username){
-		if(!this.isLive) setPlayerUnready(username);
+		if(!this.isLive()) setPlayerUnready(username);
 		//removePlayersSubVotes(username);
 		print("[Gather] RSUB "+username);
 		return;
@@ -422,11 +437,11 @@ shared class gatherMatch
 		getNet().server_SendMsg("The scoreboard has been reset");
 
 		resetRoundVars();
-		this.isLive=true;
+		setLive(true);
 	}
 	
 	int roundOver(int winningTeam){
-		if(!this.isLive)return -1;			//game isnt live yet
+		if(!this.isLive())return -1;			//game isnt live yet
 
 		resetRoundVars();
 		roundsPlayed++;

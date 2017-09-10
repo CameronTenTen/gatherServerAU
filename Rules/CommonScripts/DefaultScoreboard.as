@@ -13,7 +13,7 @@ void onBlobDie(CRules@ this, CBlob@ blob)
 		if (victim !is null)
 		{
 			gatherMatch@ gatherGame = getGatherObject(this);
-			if(gatherGame !is null && !gatherGame.isLive){
+			if(gatherGame !is null && !gatherGame.isLive()){
 				return;		//no scores in warmup
 			}
 

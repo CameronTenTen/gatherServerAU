@@ -162,7 +162,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					return true;
 				}
 
-				if(gatherGame.isLive){
+				if(gatherGame.isLive()){
 					getNet().server_SendMsg("round is already live!");
 					return true;
 				}
@@ -189,7 +189,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					return true;
 				}
 
-				if(gatherGame.isLive){
+				if(gatherGame.isLive()){
 					getNet().server_SendMsg("round is already live!");
 					return true;
 				}
@@ -207,7 +207,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					return true;
 				}
 
-				if(!gatherGame.isLive){
+				if(!gatherGame.isLive()){
 					getNet().server_SendMsg("round is not live yet!");
 					return true;
 				}
@@ -225,14 +225,14 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					return true;
 				}
 			}else if(inputtext=="!wr" || inputtext=="!who_ready" || inputtext=="!whoready"){
-				if(gatherGame.isLive){
+				if(gatherGame.isLive()){
 					getNet().server_SendMsg("round is already live!");
 					return true;
 				}
 				gatherGame.whoReady();
 				return true;
 			}else if(inputtext=="!wnr" || inputtext=="!who_not_ready" || inputtext=="!whonotready" ){
-				if(gatherGame.isLive){
+				if(gatherGame.isLive()){
 					getNet().server_SendMsg("round is already live!");
 					return true;
 				}
@@ -279,7 +279,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					return true;
 				}
 
-				if(gatherGame.isLive){
+				if(gatherGame.isLive()){
 					getNet().server_SendMsg("cannot veto, game has already started");
 					return true;
 				}
@@ -334,7 +334,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					return true;
 				}*/
 
-				if(!gatherGame.isLive){
+				if(!gatherGame.isLive()){
 					getNet().server_SendMsg("round isn't live!");
 					return true;
 				}
@@ -412,7 +412,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 			}
 			else if(inputtext=="!scrambleteams" || inputtext=="!scramble")
 			{
-				if(gatherGame.isLive){
+				if(gatherGame.isLive()){
 					getNet().server_SendMsg("cannot scramble, game has already started!");
 					return true;
 				}
@@ -436,7 +436,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 			}
 			else if(inputtext=="!scramblenotspec")
 			{
-				if(gatherGame.isLive){
+				if(gatherGame.isLive()){
 					getNet().server_SendMsg("cannot scramble, game has already started!");
 					return true;
 				}
@@ -451,7 +451,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 			}
 			else if (inputtext=="!allspec")
 			{
-				if(gatherGame.isLive){
+				if(gatherGame.isLive()){
 					getNet().server_SendMsg("cannot send players to spectator, game has already started");
 					return true;
 				}
