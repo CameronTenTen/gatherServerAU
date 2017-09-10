@@ -318,10 +318,10 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				}*/
 				return true;
 			}else if(inputtext.substr(0,4)=="!say"){
-				print("[Gather] SAY "+player.getUsername()+" "+ text_in.substr(5,text_in.size()));
+				tcpr("[Gather] SAY "+player.getUsername()+" "+ text_in.substr(5,text_in.size()));
 				return true;
 			}else if(inputtext.substr(0,5)=="!link"){
-				print("[Gather] LINK " + text_in.substr(6,text_in.size()) + " " + player.getUsername());
+				tcpr("[Gather] LINK " + text_in.substr(6,text_in.size()) + " " + player.getUsername());
 			}else if(inputtext=="!forceready" || inputtext=="!fr"){
 				if(player.isMod())
 					gatherGame.startRound();

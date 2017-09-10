@@ -370,7 +370,7 @@ shared class gatherMatch
 	
 	void addSubVote(string playerToSub, string playerReqSub){
 
-		print("[gather] SUBVOTE "+playerToSub +" "+ playerReqSub);
+		tcpr("[gather] SUBVOTE "+playerToSub +" "+ playerReqSub);
 		/*for(int i=0;i<numPlayersWithSub;i++){
 			if(playersWithSub[i].username==playerToSub){
 				return playersWithSub[i].addSubVote(playerReqSub);
@@ -396,7 +396,7 @@ shared class gatherMatch
 	void requestSub(string username){
 		if(!this.isLive()) setPlayerUnready(username);
 		//removePlayersSubVotes(username);
-		print("[Gather] RSUB "+username);
+		tcpr("[Gather] RSUB "+username);
 		return;
 	}
 	
@@ -437,7 +437,7 @@ shared class gatherMatch
 			}
 		}
 		
-		print("[Gather] ROUNDSTARTED: "+tempBlue+" "+tempRed);
+		tcpr("[Gather] ROUNDSTARTED: "+tempBlue+" "+tempRed);
 
 		resetScoreboard();
 		getNet().server_SendMsg("The scoreboard has been reset");
@@ -453,15 +453,15 @@ shared class gatherMatch
 		roundsPlayed++;
 		if(winningTeam==0){
 			blueWins++;
-			if(blueWins<((numRounds/2)+1)) print("[Gather] Blue round won");		//check there is a real game running and the game hasnt ended (if game has ended only want game over print not round one)
+			if(blueWins<((numRounds/2)+1)) tcpr("[Gather] Blue round won");		//check there is a real game running and the game hasnt ended (if game has ended only want game over print not round one)
 			getNet().server_SendMsg("Round is over! Blue Team has won!");
 		}else if(winningTeam==1){
 			redWins++;
-			if(redWins<((numRounds/2)+1)) print("[Gather] Red round won");
+			if(redWins<((numRounds/2)+1)) tcpr("[Gather] Red round won");
 			getNet().server_SendMsg("Round is over! Red Team has won!");
 		
 		}else if(winningTeam==-1){
-			print("[Gather] round drawn");
+			tcpr("[Gather] round drawn");
 			getNet().server_SendMsg("Round is over! its a draw!");
 		
 		}	//if winning team == -1 its a draw
@@ -471,14 +471,14 @@ shared class gatherMatch
 			if(numRounds>1) getNet().server_SendMsg("Final score is Blue: "+blueWins+" Red: "+redWins);
 			if(redWins>blueWins){
 				getNet().server_SendMsg("Red Team wins the game!!!");
-				print("[Gather] Red won");
+				tcpr("[Gather] Red won");
 				//game will next map itself
 			}else if(blueWins>redWins){
 				getNet().server_SendMsg("Blue Team wins the game!!!");
-				print("[Gather] Blue won");
+				tcpr("[Gather] Blue won");
 			}else{
 				getNet().server_SendMsg("Its a draw!..");
-				print("[Gather] Draw");
+				tcpr("[Gather] Draw");
 			}
 			resetGameVars();
 			return 1;		//game has ended
