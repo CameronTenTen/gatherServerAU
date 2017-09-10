@@ -99,6 +99,12 @@ shared class gatherMatch
 		CRules@ rules = getRules();
 		rules.set_bool("isLive", val);
 		rules.Sync("isLive", true);
+		
+		if(true==val)
+		{
+			rules.set_bool("gatherStartSound", true);
+			rules.Sync("gatherStartSound", true);
+		}
 	}
 	
 	bool isLive()
