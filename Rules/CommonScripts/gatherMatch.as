@@ -471,14 +471,14 @@ shared class gatherMatch
 			if(numRounds>1) getNet().server_SendMsg("Final score is Blue: "+blueWins+" Red: "+redWins);
 			if(redWins>blueWins){
 				getNet().server_SendMsg("Red Team wins the game!!!");
-				tcpr("[Gather] Red won");
+				tcpr("[Gather] GAMEOVER 1");
 				//game will next map itself
 			}else if(blueWins>redWins){
 				getNet().server_SendMsg("Blue Team wins the game!!!");
-				tcpr("[Gather] Blue won");
+				tcpr("[Gather] GAMEOVER 0");
 			}else{
 				getNet().server_SendMsg("Its a draw!..");
-				tcpr("[Gather] Draw");
+				tcpr("[Gather] GAMEOVER -1");
 			}
 			resetGameVars();
 			return 1;		//game has ended
