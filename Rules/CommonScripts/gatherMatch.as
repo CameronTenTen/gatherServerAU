@@ -102,6 +102,9 @@ shared class gatherMatch
 		
 		if(true==val)
 		{
+			//set the var to false first because an unchanged variable isnt synced --- bad impl imo >:(
+			rules.set_bool("gatherStartSound", false);
+			rules.Sync("gatherStartSound", true);
 			rules.set_bool("gatherStartSound", true);
 			rules.Sync("gatherStartSound", true);
 		}
