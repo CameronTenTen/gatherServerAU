@@ -272,6 +272,21 @@ shared class gatherMatch
 		return 1;	//player has already requested scramble
 	}
 	
+	void setStartRoundVars(){
+		setLive(true);
+		playersReady.clear();
+		numPlayersReady=0;
+		playersVeto.clear();
+		numPlayersVeto=0;
+		redTeamReady.clear();
+		blueTeamReady.clear();
+		numRedPlayersReady=0;
+		numBluePlayersReady=0;
+		
+		playersReqScramble.clear();
+		numPlayersReqScramble=0;
+	}
+	
 	void resetRoundVars(){
 		setLive(false);
 		playersReady.clear();
@@ -404,19 +419,6 @@ shared class gatherMatch
 		restartMap();			//send message to restart map
 		getNet().server_SendMsg("ROUND IS NOW LIVE!!!");
 		
-		/*string tempRed="red:";
-		string tempBlue="blue:";
-		for(int i=0;i<numPlayersReady;i++){
-			if(playersReady[i].teamNum==0){
-				print("in team num if");
-				tempBlue=tempBlue+playersReady[i].username;
-				tempBlue=tempBlue+",";
-			}else if(playersReady[i].teamNum==1){
-				tempRed=tempRed+playersReady[i].username;
-				tempRed=tempRed+",";
-			}
-		}*/
-		
 		u32 len = getPlayerCount();
 		int spectatorTeamNum = getRules().getSpectatorTeamNum();
 		string tempRed="red:";
@@ -441,9 +443,8 @@ shared class gatherMatch
 
 		resetScoreboard();
 		getNet().server_SendMsg("The scoreboard has been reset");
-
-		resetRoundVars();
-		setLive(true);
+		
+		setStartRoundVars();
 	}
 	
 	int roundOver(int winningTeam){
