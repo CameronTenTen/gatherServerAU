@@ -215,8 +215,8 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					getNet().server_SendMsg("restart vote counted for "+player.getUsername()+"! (" +gatherGame.numPlayersReqRestart+"/"+gatherGame.restartVotesReq+")");
 					if(gatherGame.numPlayersReqRestart>=gatherGame.restartVotesReq){
 						getNet().server_SendMsg("Restarting Map...");
-						gatherGame.resetRoundVars();
 						gatherGame.restartMap();
+						gatherGame.resetRoundVars();
 						getNet().server_SendMsg("Players must ready again to resume the round");
 					return true;
 					}
