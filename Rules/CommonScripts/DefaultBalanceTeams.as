@@ -19,6 +19,11 @@
 
 const int TEAM_DIFFERENCE_THRESHOLD = 1; //max allowed diff
 
+//for setting whether the gather teams are forced or not
+//if teams are forced people cannot join the team they are not in
+//if teams are not forced, players will still be put in the correct team automatically, but will be able to change teams if they want
+const bool lockedTeams = false;
+
 //TODO: store this in rules
 enum BalanceType
 {
@@ -410,7 +415,7 @@ void onPlayerRequestTeamChange(CRules@ this, CPlayer@ player, u8 newTeam)
 	}
 
 //letting players in the game always change team, could make it so they can only change between their proper team and spec
-	if(isInMatch(player.getUsername())){
+	if(isInMatch(player.getUsername()) || !lockedTeams){
 		core.ChangePlayerTeam(player, newTeam);
 		return;
 	}
