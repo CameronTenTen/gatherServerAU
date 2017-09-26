@@ -9,7 +9,7 @@ shared int ticketsRemaining(CRules@ this, int team){
 	}else if(team==1){
 		return this.get_s16("redTickets");
 	}
-	return 1;
+	return 0;
 }
 
 
@@ -25,6 +25,8 @@ shared int decrementTickets(CRules@ this, int team){			//returns 1 if no tickets
 
 		this.set_s16("blueTickets", numTickets);
 		this.Sync("blueTickets", true);
+		
+		tcpr("[Tickets] "+team+" "+numTickets);
 		return 0;
 	}else if(team==1){
 		numTickets=this.get_s16("redTickets");
@@ -34,6 +36,8 @@ shared int decrementTickets(CRules@ this, int team){			//returns 1 if no tickets
 
 		this.set_s16("redTickets", numTickets);
 		this.Sync("redTickets", true);
+		
+		tcpr("[Tickets] "+team+" "+numTickets);
 		return 0;
 	}
 	return 1;

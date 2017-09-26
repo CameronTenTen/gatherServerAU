@@ -69,7 +69,12 @@ void reset(CRules@ this){
 		this.set_s16("blueTickets", blueTickets);
 		this.Sync("redTickets", true);
 		this.Sync("blueTickets", true);
-
+		
+		//send ticket count information to any program listening through tcpr
+		//this is also done in tickets.as decrementTickets()
+		//format is [Tickets] teamNum numTickets
+		tcpr("[Tickets] 0 "+blueTickets);
+		tcpr("[Tickets] 1 "+redTickets);
 	}
 }
 
