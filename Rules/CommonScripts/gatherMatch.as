@@ -388,7 +388,7 @@ shared class gatherMatch
 	
 	void addSubVote(string playerToSub, string playerReqSub){
 
-		tcpr("[gather] SUBVOTE "+playerToSub +" "+ playerReqSub);
+		tcpr("[Gather] SUBVOTE "+playerToSub +" "+ playerReqSub);
 		/*for(int i=0;i<numPlayersWithSub;i++){
 			if(playersWithSub[i].username==playerToSub){
 				return playersWithSub[i].addSubVote(playerReqSub);
