@@ -296,7 +296,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 			}else if(inputtext.substr(0,5)=="!rsub"){
 
 				if(!isInMatch(player.getUsername()) || !gatherGame.isGameRunning){
-					getNet().server_SendMsg("you cannot do that if you are not in the game "+player.getUsername());
+					getNet().server_SendMsg("you cannot do that if you are not in a game "+player.getUsername());
 					return true;
 				}
 
