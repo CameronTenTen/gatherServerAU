@@ -46,6 +46,10 @@ void onInit(CBlob@ this)
 	}
 	this.Tag("door");
 	this.Tag("blocks water");
+	
+	//variables for adding a dleay to doors closing
+	this.set_u16("close delay",15);
+	this.set_u16("time since touched",0);
 }
 
 void onSetStatic(CBlob@ this, const bool isStatic)
@@ -108,6 +112,16 @@ void onTick(CBlob@ this)
 			setOpen(this, true, ((pos - other_pos) * direction) < 0.0f);
 		}
 	}
+	
+	u16 touch = this.get_u16("time since touched");
+	u16 delay = this.get_u16("close delay");
+	//print("touch: "+touch+" delay: "+
+	if(touch<delay)
+	{
+		this.set_u16("time since touched",touch+this.getCurrentScript().tickFrequency);
+		return;
+	}
+		
 	// close it
 	if (isOpen(this) && canClose(this))
 	{
@@ -147,9 +161,10 @@ void onEndCollision(CBlob@ this, CBlob@ blob)
 		{
 			if (isOpen(this))
 			{
-				setOpen(this, false);
+				print("collision ended");
+				this.set_u16("time since touched",0);
+				//setOpen(this, false);
 			}
-			this.getCurrentScript().tickFrequency = 0;
 		}
 	}
 }
