@@ -115,7 +115,6 @@ void onTick(CBlob@ this)
 	
 	u16 touch = this.get_u16("time since touched");
 	u16 delay = this.get_u16("close delay");
-	//print("touch: "+touch+" delay: "+
 	if(touch<delay)
 	{
 		this.set_u16("time since touched",touch+this.getCurrentScript().tickFrequency);
@@ -161,7 +160,6 @@ void onEndCollision(CBlob@ this, CBlob@ blob)
 		{
 			if (isOpen(this))
 			{
-				print("collision ended");
 				this.set_u16("time since touched",0);
 				//setOpen(this, false);
 			}
