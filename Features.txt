@@ -15,11 +15,15 @@ List of changes between Gather and vanilla KAG
 [changed] - Reduced mine cost from 60 to 30 coins				(potentially make them more viable?)
 [changed] - Reduced keg cost from 120 to 75 coins				(make attacking cheaper/nerf camping)
 [changed] - Reduced fire arrow cost from 30 to 20 coins				(make attacking cheaper/nerf camping)
-[changed] - Increased water arrow cost from 20 to 30 coins			(they gain too much value for the cost)
+[changed] - Decreased water arrow stack size from 2 to 1			(they gain too much value for the cost)
 [changed] - Increased blocks of bedrock spawning under the flag from 3 to 5	(more difficult to tunnel in from below)
 [changed] - Doubled sword damage against wooden doors				(wooden doors too strong for the cost)
 [changed] - Increased bomb damage against doors from x1.5 to x2			(door spam is not fun)
-[changed] - Platform Health reduced from 4.5 to 3.0				(platform spam is not fun #bringbackclassicplatforms)
+[changed] - Platform Health reduced from 4.5 to 2.5				(platform spam is not fun #bringbackclassicplatforms)
+[changed] - doors now remain open for 15 ticks after a player uses them		(experimental change, door combat is ew)
+[changed] - flag no build area is cleared of blocks				(invulnerable dirt blocks are not a good mechanic)
+[changed] - trampoline cost from 150 wood to 100 wooden				(perhaps make them more useful, I have a feeling I will need to nerf these back again once people realise how useful they are)
+[changed] - sponges can now be bought with either 50 wood or 15 coins		(coins are hard to get, wood is easy, water spam is not fun)
 
 [added] - Custom GenerateFromKAGGen.as for more map variety and control
 	- map generator changes include
@@ -47,3 +51,14 @@ Doubled sword damage against wooden doors
 Increased bomb damage against doors from x1.5 to x2
 Platform Health reduced from 4.5 to 3.0
 
+1/10/17
+Water arrows now stack to 1, and price reduced to 20 to reflect this change
+Platform health reduced again from 3.0 to 2.5
+Doors now remain open for 15 ticks after end of collision
+
+2/10/17
+Flag no build zone now cleared of block
+
+3/10/17
+trampoline cost changed from 150 to 100 wood
+added 50 wood as an alternative way to buy sponge
