@@ -20,7 +20,7 @@ List of changes between Gather and vanilla KAG
 [changed] - Doubled sword damage against wooden doors				(wooden doors too strong for the cost)
 [changed] - Increased bomb damage against doors from x1.5 to x2			(door spam is not fun)
 [changed] - Platform Health reduced from 4.5 to 2.5				(platform spam is not fun #bringbackclassicplatforms)
-[changed] - doors now remain open for 15 ticks after a player uses them		(experimental change, door combat is ew)
+[changed] - doors now remain open for 9 ticks after a player uses them		(experimental change, door combat is ew)
 [changed] - flag no build area is cleared of blocks				(invulnerable dirt blocks are not a good mechanic)
 [changed] - trampoline cost from 150 wood to 100 wooden				(perhaps make them more useful, I have a feeling I will need to nerf these back again once people realise how useful they are)
 [changed] - sponges can now be bought with either 50 wood or 15 coins		(coins are hard to get, wood is easy, water spam is not fun)
@@ -62,3 +62,4 @@ Flag no build zone now cleared of block
 3/10/17
 trampoline cost changed from 150 to 100 wood
 added 50 wood as an alternative way to buy sponge
+changed door close delay from 15 ticks to 9 ticks
