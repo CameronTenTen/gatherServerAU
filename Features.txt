@@ -13,7 +13,7 @@ List of changes between Gather and vanilla KAG
 [changed] - Increased bomb cost from 25 to 30 coins				(make them less common/economy adjustment)
 [changed] - Increased water bomb cost from 30 to 35 coins			(make them less common/economy adjustment)
 [changed] - Reduced mine cost from 60 to 30 coins				(potentially make them more viable?)
-[changed] - Reduced keg cost from 120 to 75 coins				(make attacking cheaper/nerf camping)
+[changed] - Reduced keg cost from 120 to 100 coins				(make attacking cheaper/nerf camping)
 [changed] - Reduced fire arrow cost from 30 to 20 coins				(make attacking cheaper/nerf camping)
 [changed] - Decreased water arrow stack size from 2 to 1			(they gain too much value for the cost)
 [changed] - Increased blocks of bedrock spawning under the flag from 3 to 5	(more difficult to tunnel in from below)
@@ -63,3 +63,4 @@ Flag no build zone now cleared of block
 trampoline cost changed from 150 to 100 wood
 added 50 wood as an alternative way to buy sponge
 changed door close delay from 15 ticks to 9 ticks
+changed keg cost back from 75 to 100
