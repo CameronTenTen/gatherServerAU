@@ -63,4 +63,5 @@ Flag no build zone now cleared of block
 trampoline cost changed from 150 to 100 wood
 added 50 wood as an alternative way to buy sponge
 changed door close delay from 15 ticks to 9 ticks
-changed keg cost back from 75 to 100
+changed keg cost from 75 to 90
+reduced keg explosion radius to half when it explodes due to impact
