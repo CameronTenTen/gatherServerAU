@@ -48,7 +48,7 @@ void onInit(CBlob@ this)
 	this.Tag("blocks water");
 	
 	//variables for adding a dleay to doors closing
-	this.set_u16("close delay",15);
+	this.set_u16("close delay",9);
 	this.set_u16("time since touched",0);
 }
 
