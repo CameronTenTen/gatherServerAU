@@ -45,7 +45,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Trampoline", "$trampoline$", "trampoline", descriptions[30], false);
-		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", COST_WOOD_TRAMPOLINE);
+		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100);
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Saw", "$saw$", "saw", descriptions[12], false);
