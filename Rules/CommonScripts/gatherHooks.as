@@ -12,6 +12,13 @@ void startGathering(CRules@ this){
 	putAllPlayersIntoTeams(this);
 }
 
+void clearGame(CRules@ this){
+	gatherMatch@ gatherGame = getGatherObject(this);
+	if(!gatherGame.isGameRunning) return;
+	gatherGame.resetGameVars();
+	getNet().server_SendMsg("the currently running gather game has been ended with no scores given");
+}
+
 void scrambleTeams(CRules@ this, bool includeSpectators)
 {
 	RulesCore@ core;
@@ -94,6 +101,11 @@ void onTick(CRules@ this){
 		}
 		if(this.get_bool("updateScore")){
 			this.set_bool("updateScore", false);
+		}
+
+		if(this.get_bool("clearGame")){
+			clearGame(this);
+			this.set_bool("clearGame", false);
 		}
 
 		//dynamic number of players
