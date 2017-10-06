@@ -96,7 +96,14 @@ void onTick(CRules@ this){
 			this.set_bool("teamsSet", false);
 		}
 		if(this.get_bool("teamsUpdated")){
-			checkSubInSpec(this);
+			if(gatherGame.isGameRunning==false)
+			{
+				startGathering(this);
+			}
+			else
+			{
+				checkSubInSpec(this);
+			}
 			this.set_bool("teamsUpdated", false);
 		}
 		if(this.get_bool("updateScore")){
