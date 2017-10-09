@@ -22,7 +22,7 @@ const int TEAM_DIFFERENCE_THRESHOLD = 1; //max allowed diff
 //for setting whether the gather teams are forced or not
 //if teams are forced people cannot join the team they are not in
 //if teams are not forced, players will still be put in the correct team automatically, but will be able to change teams if they want
-const bool lockedTeams = false;
+const bool lockedTeams = true;
 
 //TODO: store this in rules
 enum BalanceType
