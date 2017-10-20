@@ -420,7 +420,7 @@ void onPlayerRequestTeamChange(CRules@ this, CPlayer@ player, u8 newTeam)
 		return;
 	}
 
-	getNet().server_SendMsg("you are not in this game and cannot join a team "+player.getUsername()+"! visit the forums for how to play!");
+	getNet().server_SendMsg("you are not in this game and cannot join a team "+player.getUsername()+"! Join our discord using the link in the server description to play!");
 
 	/*
 
