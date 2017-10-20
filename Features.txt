@@ -23,7 +23,9 @@ List of changes between Gather and vanilla KAG
 [changed] - doors now remain open for 9 ticks after a player uses them		(experimental change, door combat is ew)
 [changed] - flag no build area is cleared of blocks				(invulnerable dirt blocks are not a good mechanic)
 [changed] - trampoline cost from 150 wood to 100 wooden				(perhaps make them more useful, I have a feeling I will need to nerf these back again once people realise how useful they are)
-[changed] - sponges can now be bought with either 50 wood or 15 coins		(coins are hard to get, wood is easy, water spam is not fun)
+[changed] - sponges can now be bought with 50 wood				(coins are hard to get, wood is easy, water spam is not fun)
+[changed] - platform fire spread rate increased					(make stone backwall less effective)
+[changed] - saw and seed picup priorites					(pls fix pickup priorities developers!)
 
 [added] - Custom GenerateFromKAGGen.as for more map variety and control
 	- map generator changes include
@@ -61,6 +63,12 @@ Flag no build zone now cleared of block
 
 3/10/17
 trampoline cost changed from 150 to 100 wood
-added 50 wood as an alternative way to buy sponge
+changed sponge cost to 50 wood
 changed door close delay from 15 ticks to 9 ticks
 changed keg cost back from 75 to 100
+
+5/10/17
+increased fire spread rate on wooden platforms to have an addional spread every third tick
+
+20/10/17
+modified saw and seed pickup priorities
