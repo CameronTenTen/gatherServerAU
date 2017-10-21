@@ -137,6 +137,10 @@ void onInit(CRules@ this){
 	this.set_bool("updateScore", false);
 }
 
+void onStateChange( CRules@ this, const u8 oldState )
+{
+	if(oldState==WARMUP && this.getCurrentState()==GAME) tcpr("[Gather] BUILDINGTIMEENDED");
+}
 
 void onPlayerLeave( CRules@ this, CPlayer@ player ){
 	gatherMatch@ gatherGame=getGatherObject(this);
