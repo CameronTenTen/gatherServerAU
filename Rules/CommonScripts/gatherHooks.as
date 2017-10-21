@@ -139,7 +139,7 @@ void onInit(CRules@ this){
 
 void onStateChange( CRules@ this, const u8 oldState )
 {
-	if(oldState==WARMUP && this.getCurrentState()==GAME) tcpr("[Gather] BUILDINGTIMEENDED");
+	if(oldState==WARMUP && this.getCurrentState()==GAME && getGatherObject(this).isGameRunning) tcpr("[Gather] BUILDINGTIMEENDED");
 }
 
 void onPlayerLeave( CRules@ this, CPlayer@ player ){
