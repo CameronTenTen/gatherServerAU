@@ -19,13 +19,11 @@ List of changes between Gather and vanilla KAG
 [changed] - Increased blocks of bedrock spawning under the flag from 3 to 5	(more difficult to tunnel in from below)
 [changed] - Doubled sword damage against wooden doors				(wooden doors too strong for the cost)
 [changed] - Increased bomb damage against doors from x1.5 to x2			(door spam is not fun)
-[changed] - Platform Health reduced from 4.5 to 2.5				(platform spam is not fun #bringbackclassicplatforms)
 [changed] - doors now remain open for 9 ticks after a player uses them		(experimental change, door combat is ew)
 [changed] - flag no build area is cleared of blocks				(invulnerable dirt blocks are not a good mechanic)
 [changed] - trampoline cost from 150 wood to 100 wooden				(perhaps make them more useful, I have a feeling I will need to nerf these back again once people realise how useful they are)
 [changed] - sponges can now be bought with 50 wood				(coins are hard to get, wood is easy, water spam is not fun)
 [changed] - platform fire spread rate increased					(make stone backwall less effective)
-[changed] - saw and seed picup priorites					(pls fix pickup priorities developers!)
 
 [added] - Custom GenerateFromKAGGen.as for more map variety and control
 	- map generator changes include
@@ -72,3 +70,7 @@ increased fire spread rate on wooden platforms to have an addional spread every 
 
 20/10/17
 modified saw and seed pickup priorities
+
+1/11/17
+Platforms no longer different to vanilla health (was nerfed in vanilla)
+Removed modified pickup priorities (vanilla changed thanks to tru0067)
