@@ -301,18 +301,19 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					getNet().server_SendMsg("you cannot veto if you are not in the game "+player.getUsername());
 					return true;
 				}
-
-				if(gatherGame.isLive()){
+				//want to allow veto when we get a bad map
+				/*if(gatherGame.isLive()){
 					getNet().server_SendMsg("cannot veto, game has already started");
 					return true;
-				}
+				}*/
 				if(gatherGame.addVetoVote(player.getUsername())==1){
 					getNet().server_SendMsg("You have already requested to veto this map "+player.getUsername()+"!");
 				}else{
 					getNet().server_SendMsg(player.getUsername()+" has requested to veto this map! ("+gatherGame.numPlayersVeto+"/"+gatherGame.vetoVotesReq+")");
 				}
 				if(gatherGame.numPlayersVeto>=gatherGame.vetoVotesReq){
-					gatherGame.resetRoundVars();
+					if(!gatherGame.isLive()) gatherGame.resetRoundVars();
+					else gatherGame.setStartRoundVars();
 					gatherGame.nextMap();
 				}
 				return true;
