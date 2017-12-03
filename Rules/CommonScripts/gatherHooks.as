@@ -436,8 +436,8 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 			}
 			else if(inputtext=="!scrambleteams" || inputtext=="!scramble")
 			{
-				if(gatherGame.isLive()){
-					getNet().server_SendMsg("cannot scramble, game has already started!");
+				if(gatherGame.isGameRunning){
+					getNet().server_SendMsg("cannot scramble while a game is running!");
 					return true;
 				}
 				if(getSecurity().checkAccess_Feature(player, "admin_color"))
