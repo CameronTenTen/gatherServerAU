@@ -340,6 +340,11 @@ shared class gatherMatch
 		numPlayersWithSub=0;
 	}
 	
+	void resetBuildTimeEndVars(){
+		playersVeto.clear();
+		numPlayersVeto=0;
+	}
+	
 	void restartMap(){
 		LoadMap(getMap().getMapName());
 	}
