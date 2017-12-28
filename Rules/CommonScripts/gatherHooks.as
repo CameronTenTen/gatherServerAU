@@ -139,7 +139,7 @@ void onInit(CRules@ this){
 
 void onStateChange( CRules@ this, const u8 oldState )
 {
-	gatherMatch@ gatherGame = getGatherObject(this)
+	gatherMatch@ gatherGame = getGatherObject(this);
 	if(gatherGame is null) return;
 	if(oldState==WARMUP && this.getCurrentState()==GAME && gatherGame.isLive()) tcpr("[Gather] BUILDINGTIMEENDED");
 	if(gatherGame !is null && gatherGame.isLive()) gatherGame.resetBuildTimeEndVars();
