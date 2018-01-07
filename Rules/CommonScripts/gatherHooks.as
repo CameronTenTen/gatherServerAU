@@ -439,16 +439,20 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 			}
 			else if(inputtext=="!scrambleteams" || inputtext=="!scramble")
 			{
-				if(gatherGame.isGameRunning){
-					getNet().server_SendMsg("cannot scramble while a game is running!");
-					return true;
-				}
 				if(getSecurity().checkAccess_Feature(player, "admin_color"))
 				{
 					scrambleTeams(this, true);
 				}
 				else
 				{
+					if(!isInMatch(player.getUsername()) && gatherGame.isGameRunning ){
+						getNet().server_SendMsg("you cannot do that if you are not in the game "+player.getUsername());
+						return true;
+					}
+					if(gatherGame.isGameRunning){
+						getNet().server_SendMsg("cannot scramble while a game is running!");
+						return true;
+					}
 					//add a vote
 					if(gatherGame.addScrambleVote(player.getUsername())==1){
 						getNet().server_SendMsg("you have already voted to scramble the teams "+player.getUsername() + " ("+gatherGame.numPlayersReqScramble+"/"+gatherGame.scrambleVotesReq+")");
@@ -463,6 +467,10 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 			}
 			else if(inputtext=="!scramblenotspec")
 			{
+				if(gatherGame.isGameRunning){
+					getNet().server_SendMsg("cannot scramble while a game is running!");
+					return true;
+				}
 				if(gatherGame.isLive()){
 					getNet().server_SendMsg("cannot scramble, game has already started!");
 					return true;
