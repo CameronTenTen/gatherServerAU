@@ -65,6 +65,19 @@ void scrambleTeams(CRules@ this, bool includeSpectators)
 	}
 }
 
+int pauseDelay = 10;
+void initiatePause(CRules@ this)
+{
+	this.set_s8("pauseTimer", pauseDelay);
+	this.Sync("pauseTimer", true);
+}
+
+void initiateUnpause(CRules@ this)
+{
+	this.set_s8("unpauseTimer", pauseDelay);
+	this.Sync("unpauseTimer", true);
+}
+
 //end of round code
 
 const string tagname = "gather round over processed";
@@ -123,6 +136,22 @@ void onTick(CRules@ this){
 		}
 
 	}
+	
+	if(gatherGame !is null){
+		s8 timer = this.get_s8("pauseTimer");
+		if(timer>0 && getGameTime()%getTicksASecond()==0){
+			this.set_s8("pauseTimer", timer-1);
+			this.Sync("pauseTimer", true);
+			if(timer<=1) gatherGame.pauseGame();
+		}
+		
+		timer = this.get_s8("unpauseTimer");
+		if(timer>0 && getGameTime()%getTicksASecond()==0){
+			this.set_s8("unpauseTimer", timer-1);
+			this.Sync("unpauseTimer", true);
+			if(timer<=1) gatherGame.unpauseGame();
+		}
+	}
 
 }
 
@@ -151,6 +180,13 @@ void onPlayerLeave( CRules@ this, CPlayer@ player ){
 		getNet().server_SendMsg(player.getUsername() + " is no longer ready (" +gatherGame.numPlayersReady+"/"+gatherGame.numPlayers+" left)");
 }
 
+void onNewPlayerJoin(CRules@ this, CPlayer@ player)
+{
+	gatherMatch@ gatherGame=getGatherObject(this);
+	if(gatherGame.isPaused()){
+		player.freeze = true;
+	}
+}
 
 void onPlayerChangedTeam( CRules@ this, CPlayer@ player, u8 oldteam, u8 newteam ){
 
@@ -510,6 +546,50 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				else
 				{
 					getNet().server_SendMsg("Only admins can do that " + player.getUsername());
+				}
+			}
+			else if(inputtext=="!freeze" || inputtext=="!pause" || inputtext=="!stop" || inputtext=="!wait")
+			{
+				if(!isInMatch(player.getUsername()) && gatherGame.isGameRunning ){
+					getNet().server_SendMsg("you cannot do that if you are not in the game "+player.getUsername());
+					return true;
+				}
+				if(gatherGame.isPaused()){
+					getNet().server_SendMsg("the game is already paused "+player.getUsername() + "!");
+				}else if(gatherGame.numPlayersReqPause >= gatherGame.pauseVotesReq){
+					getNet().server_SendMsg("the game is already being paused "+player.getUsername() + "!");
+					return true;		//it is possible for players to request a pause while the countdown is happening, this prevents a second countdown
+				}else if(gatherGame.addPauseVote(player.getUsername())==1){
+					getNet().server_SendMsg("you have already voted to paused the game "+player.getUsername() + " ("+gatherGame.numPlayersReqPause+"/"+gatherGame.pauseVotesReq+")");
+				}else{
+					getNet().server_SendMsg("vote to paused game counted ("+gatherGame.numPlayersReqPause+"/"+gatherGame.pauseVotesReq+")");
+				}
+				
+				if(gatherGame.numPlayersReqPause >= gatherGame.pauseVotesReq)
+				{
+					initiatePause(this);
+				}
+			}
+			else if(inputtext=="!unfreeze"|| inputtext=="!unpause"  || inputtext=="!continue" || inputtext=="!go" || inputtext=="!resume")
+			{
+				if(!isInMatch(player.getUsername()) && gatherGame.isGameRunning ){
+					getNet().server_SendMsg("you cannot do that if you are not in the game "+player.getUsername());
+					return true;
+				}
+				if(!gatherGame.isPaused()){
+					getNet().server_SendMsg("the game is already unpaused "+player.getUsername() + "!");
+				}else if(gatherGame.numPlayersReqUnpause >= gatherGame.pauseVotesReq){
+					getNet().server_SendMsg("the game is already being unpaused "+player.getUsername() + "!");
+					return true;		//it is possible for players to request an unpause while the countdown is happening, this prevents a second countdown
+				}else if(gatherGame.addUnpauseVote(player.getUsername())==1){
+					getNet().server_SendMsg("you have already voted to unpause the game "+player.getUsername() + " ("+gatherGame.numPlayersReqUnpause+"/"+gatherGame.pauseVotesReq+")");
+				}else{
+					getNet().server_SendMsg("vote to unpause game counted ("+gatherGame.numPlayersReqUnpause+"/"+gatherGame.pauseVotesReq+")");
+				}
+				
+				if(gatherGame.numPlayersReqUnpause >= gatherGame.pauseVotesReq)
+				{
+					initiateUnpause(this);
 				}
 			}
 				/*else if(inputtext.substr(0,11)=="!setPlayers" || inputtext.substr(0,11)=="!setplayers" || inputtext.substr(0,11)=="!SETPLAYERS" ){

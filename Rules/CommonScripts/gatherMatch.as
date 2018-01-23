@@ -66,6 +66,13 @@ shared class gatherMatch
 	string[] resetScoreVotes;
 	int resetScoreVotesRequired=6;
 	
+	string[] playersReqPause(numPlayers);
+	string[] playersReqUnpause(numPlayers);
+	int numPlayersReqPause;
+	int numPlayersReqUnpause;
+	int pauseVotesReq = 3;
+	private bool gamePaused = false;
+	
 	//constructor
 	gatherMatch(CRules@ rules){
 		print("GATHER SERVER STARTED");
@@ -87,7 +94,8 @@ shared class gatherMatch
 		
 		numPlayersWithSub=0;
 		
-		//get players from seclevs
+		numPlayersReqPause=0;
+		numPlayersReqUnpause=0;
 		
 	}
 	
@@ -139,6 +147,19 @@ shared class gatherMatch
 	bool hasReqScramble(string userName){
 		for(int i=0;i<numPlayersReqScramble;i++){
 			if(userName==playersReqScramble[i]) return true;
+		}
+		return false;
+	}
+	
+	bool hasReqPause(string username){
+		for(int i=0;i<numPlayersReqPause;i++){
+			if(username==playersReqPause[i]) return true;
+		}
+		return false;
+	}
+	bool hasReqUnpause(string username){
+		for(int i=0;i<numPlayersReqUnpause;i++){
+			if(username==playersReqUnpause[i]) return true;
 		}
 		return false;
 	}
@@ -288,6 +309,12 @@ shared class gatherMatch
 		
 		playersReqScramble.clear();
 		numPlayersReqScramble=0;
+		
+		playersReqPause.clear();
+		playersReqUnpause.clear();
+		numPlayersReqPause=0;
+		numPlayersReqUnpause=0;
+		unpauseGame();
 	}
 	
 	void resetRoundVars(){
@@ -310,6 +337,12 @@ shared class gatherMatch
 		blueGiveWinVotes=0;
 		redGiveWinVotes=0;
 		drawGiveWinVotes=0;
+		
+		playersReqPause.clear();
+		playersReqUnpause.clear();
+		numPlayersReqPause=0;
+		numPlayersReqUnpause=0;
+		unpauseGame();
 	}
 	
 	void resetGameVars(){
@@ -338,6 +371,12 @@ shared class gatherMatch
 		roundsPlayed=0;
 		playersWithSub.clear();
 		numPlayersWithSub=0;
+		
+		playersReqPause.clear();
+		playersReqUnpause.clear();
+		numPlayersReqPause=0;
+		numPlayersReqUnpause=0;
+		unpauseGame();
 	}
 	
 	void resetBuildTimeEndVars(){
@@ -538,6 +577,61 @@ shared class gatherMatch
 			}
 		}
 		return -1;	//player has already voted to givewin for that team
+	}
+	
+	int addPauseVote(string username){
+		if(!this.hasReqPause(username)){
+			playersReqPause.insertAt(numPlayersReqPause,username);
+			numPlayersReqPause++;
+			return 0;
+		}
+		return 1;	//player has already voted
+	}
+	int addUnpauseVote(string username){
+		if(!this.hasReqUnpause(username)){
+			playersReqUnpause.insertAt(numPlayersReqUnpause,username);
+			numPlayersReqUnpause++;
+			return 0;
+		}
+		return 1;	//player has already voted
+	}
+	
+	bool isPaused(){
+		return this.gamePaused;
+	}
+	
+	void pauseGame(){
+		this.gamePaused = true;
+		this.freezePlayers();
+		this.playersReqPause.clear();
+		this.numPlayersReqPause=0;
+		this.playersReqUnpause.clear();
+		this.numPlayersReqUnpause=0;
+	}
+	
+	void unpauseGame(){
+		this.unfreezePlayers();
+		this.gamePaused = false;
+		this.playersReqUnpause.clear();
+		this.numPlayersReqUnpause=0;
+		this.playersReqPause.clear();
+		this.numPlayersReqPause=0;
+	}
+	
+	void freezePlayers(){
+		u32 len = getPlayerCount();
+		for (uint i = 0; i < len; i++)
+		{
+			getPlayer(i).freeze = true;
+		}
+	}
+	
+	void unfreezePlayers(){
+		u32 len = getPlayerCount();
+		for (uint i = 0; i < len; i++)
+		{
+			getPlayer(i).freeze = false;
+		}
 	}
 };
 
