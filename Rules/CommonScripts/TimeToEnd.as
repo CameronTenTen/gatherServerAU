@@ -55,7 +55,9 @@ void onTick(CRules@ this)
 			if (teamWon !is null)
 			{
 				hasWinner = true;
-				this.SetGlobalMessage("Time is up!\n" + teamWon.getName() + " wins the game!");
+				this.SetGlobalMessage("Time is up!\n{WINNING_TEAM} wins the game!");
+				this.AddGlobalMessageReplacement("WINNING_TEAM", teamWon.getName());
+				
 			}
 		}
 
@@ -81,10 +83,9 @@ void onRender(CRules@ this)
 
 		s32 secondsToEnd = timeToEnd % 60;
 		s32 MinutesToEnd = timeToEnd / 60;
-		drawRulesFont("Time left: " +
-		              ((MinutesToEnd < 10) ? "0" + MinutesToEnd : "" + MinutesToEnd) +
-		              ":" +
-		              ((secondsToEnd < 10) ? "0" + secondsToEnd : "" + secondsToEnd),
+		drawRulesFont(getTranslatedString("Time left: {MIN}:{SEC}")
+						.replace("{MIN}", "" + ((MinutesToEnd < 10) ? "0" + MinutesToEnd : "" + MinutesToEnd))
+						.replace("{SEC}", "" + ((secondsToEnd < 10) ? "0" + secondsToEnd : "" + secondsToEnd)),
 		              SColor(255, 255, 255, 255), Vec2f(10, 140), Vec2f(getScreenWidth() - 20, 180), true, false);
 	}
 }

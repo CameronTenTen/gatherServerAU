@@ -82,6 +82,7 @@ void onTick(CBlob@ this)
 			CBlob@ b = getBlobByNetworkID(id);
 			if (b !is null)
 			{
+				//check return conditions
 				if (!b.isAttached() && !b.isAttached() && b.hasTag("return"))
 				{
 					//sync tag, flag can play sounds
@@ -91,6 +92,16 @@ void onTick(CBlob@ this)
 					this.server_AttachTo(b, "FLAG");
 					b.SetFacingLeft(this.isFacingLeft());
 				}
+
+				if (b.hasTag("stalemate_return"))
+				{
+					b.server_DetachAll();
+					this.SendCommand(this.getCommandID(flag_return));
+					b.Untag("stalemate_return"); //local
+
+					this.server_AttachTo(b, "FLAG");
+					b.SetFacingLeft(this.isFacingLeft());
+			}
 			}
 			else
 			{
