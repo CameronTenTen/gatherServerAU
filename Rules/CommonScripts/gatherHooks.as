@@ -119,6 +119,17 @@ void onTick(CRules@ this){
 			}
 			this.set_bool("teamsUpdated", false);
 		}
+		if(this.get_bool("teamsScrambled")){
+			if(gatherGame.isGameRunning==false)
+			{
+				startGathering(this);
+			}
+			else
+			{
+				putAllPlayersIntoTeams(this);
+			}
+			this.set_bool("teamsScrambled", false);
+		}
 		if(this.get_bool("updateScore")){
 			this.set_bool("updateScore", false);
 		}
