@@ -140,25 +140,25 @@ shared class gatherMatch
 	{
 		if(!this.isLive()) {
 			this.numPlayers=count;
-			numBluePlayers=numPlayers/2;
-			numRedPlayers=numPlayers/2;
+			this.numBluePlayers=this.numPlayers/2;
+			this.numRedPlayers=this.numPlayers/2;
 
-			int restartVotesReq=numPlayers*0.6;
-			int vetoVotesReq=numPlayers*0.6;
+			this.restartVotesReq=this.numPlayers*0.6;
+			this.vetoVotesReq=this.numPlayers*0.6;
 
-			int subVotesReq=numPlayers*0.4;
+			this.subVotesReq=this.numPlayers*0.4;
 
-			int giveWinVotesReq=numPlayers*0.6;
+			this.giveWinVotesReq=this.numPlayers*0.6;
 
-			int scrambleVotesReq=numPlayers*0.8;
-			int resetScoreVotesRequired=numPlayers*0.6;
-			int pauseVotesReq = numPlayers*0.3;
+			this.scrambleVotesReq=this.numPlayers*0.8;
+			this.resetScoreVotesRequired=this.numPlayers*0.6;
+			this.pauseVotesReq = this.numPlayers*0.3;
 
 			this.resetVotes();
 
 			//check any sub votes now passing
 			//this code is unused/untested because the bot manages sub requests, not the server mod
-			for(int i=0;i<playersWithSub;i++){
+			for(int i=0;i<playersWithSub.length();i++){
 				if(playersWithSub[i].numPlayersReqSub>subVotesReq)
 				{
 					this.requestSub(playersWithSub[i].username);
@@ -421,7 +421,6 @@ shared class gatherMatch
 		isGameRunning=false;
 		//getRules().set_bool("isGameRunning",false);
 		setLive(false);
-		numPlayers=defaultNumPlayers;
 		playersReady.clear();
 		playersReqRestart.clear();
 		numPlayersReady=0;
