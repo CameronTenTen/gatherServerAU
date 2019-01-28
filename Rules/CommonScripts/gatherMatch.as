@@ -25,15 +25,15 @@ shared class gatherMatch
 	int numRedPlayers=numPlayers/2;
 
 	int numRounds=1;	//best of
-	int restartVotesReq=6;
-	int vetoVotesReq=6;
-	
-	int subVotesReq=4;
+	int restartVotesReq=numPlayers*0.6;
+	int vetoVotesReq=numPlayers*0.6;
 
-	int giveWinVotesReq=6;
-	
-	int scrambleVotesReq=8;
-	
+	int subVotesReq=numPlayers*0.4;
+
+	int giveWinVotesReq=numPlayers*0.6;
+
+	int scrambleVotesReq=numPlayers*0.8;
+
 	bool isGameRunning;
 	private bool isGameLive;
 	//string[] playersInMatch(numPlayers);
@@ -59,24 +59,25 @@ shared class gatherMatch
 	int blueGiveWinVotes;
 	int redGiveWinVotes;
 	int drawGiveWinVotes;
-	
+
 	gatherPlayer[] playersWithSub(numPlayers);
 	int numPlayersWithSub;
 
 	string[] resetScoreVotes;
-	int resetScoreVotesRequired=6;
-	
+	int resetScoreVotesRequired=numPlayers*0.6;
+
 	string[] playersReqPause(numPlayers);
 	string[] playersReqUnpause(numPlayers);
 	int numPlayersReqPause;
 	int numPlayersReqUnpause;
-	int pauseVotesReq = 3;
+	int pauseVotesReq = numPlayers*0.3;
 	private bool gamePaused = false;
 
 	string joinFullSeclevString = "joinFull";
 	CSeclev@ joinFullSeclev=null;
 
 	//constructor
+	//crules is passed here because there was a bug that caused the default constructor to be called multiple times
 	gatherMatch(CRules@ rules){
 		print("GATHER SERVER STARTED");
 		isGameRunning=false;
@@ -108,6 +109,8 @@ shared class gatherMatch
 		if(joinFullSeclev is null) {
 			print("WARNING: join full seclev not found, gather players will not be able to join a full server!");
 		}
+
+		rules.set_s32("numPlayers", this.defaultNumPlayers);
 	}
 	
 	void setLive(bool val)
@@ -133,7 +136,38 @@ shared class gatherMatch
 	{
 		return this.isGameLive;
 	}
-	
+
+	void setNumPlayers(int count)
+	{
+		if(!this.isLive()) {
+			this.numPlayers=count;
+			numBluePlayers=numPlayers/2;
+			numRedPlayers=numPlayers/2;
+
+			int restartVotesReq=numPlayers*0.6;
+			int vetoVotesReq=numPlayers*0.6;
+
+			int subVotesReq=numPlayers*0.4;
+
+			int giveWinVotesReq=numPlayers*0.6;
+
+			int scrambleVotesReq=numPlayers*0.8;
+			int resetScoreVotesRequired=numPlayers*0.6;
+			int pauseVotesReq = numPlayers*0.3;
+
+			this.resetVotes();
+
+			//check any sub votes now passing
+			//this code is unused/untested because the bot manages sub requests, not the server mod
+			for(int i=0;i<playersWithSub;i++){
+				if(playersWithSub[i].numPlayersReqSub>subVotesReq)
+				{
+					this.requestSub(playersWithSub[i].username);
+				}
+			}
+		}
+	}
+
 	bool isReady(string username){
 		for(int i=0;i<numPlayersReady;i++){
 			if(username==playersReady[i].username) return true;
@@ -306,7 +340,35 @@ shared class gatherMatch
 		}
 		return 1;	//player has already requested scramble
 	}
-	
+
+	void resetVotes(){
+		playersReady.clear();
+		playersReqRestart.clear();
+		numPlayersReady=0;
+		numPlayersReqRestart=0;
+
+		playersVeto.clear();
+		numPlayersVeto=0;
+
+		redTeamReady.clear();
+		blueTeamReady.clear();
+		numRedPlayersReady=0;
+		numBluePlayersReady=0;
+
+		playersReqGiveWin.clear();
+		blueGiveWinVotes=0;
+		redGiveWinVotes=0;
+		drawGiveWinVotes=0;
+
+		playersReqScramble.clear();
+		numPlayersReqScramble=0;
+
+		playersReqPause.clear();
+		playersReqUnpause.clear();
+		numPlayersReqPause=0;
+		numPlayersReqUnpause=0;
+	}
+
 	void setStartRoundVars(){
 		setLive(true);
 		playersReady.clear();

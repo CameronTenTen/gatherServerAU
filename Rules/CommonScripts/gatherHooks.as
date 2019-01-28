@@ -4,6 +4,7 @@
 
 void startGathering(CRules@ this){
 	gatherMatch@ gatherGame = getGatherObject(this);
+	gatherGame.setNumPlayers(this.get_s32("numPlayers"));
 	gatherGame.resetGameVars();
 	gatherGame.isGameRunning=true;
 
@@ -129,6 +130,16 @@ void onTick(CRules@ this){
 
 	if(gatherGame !is null){
 
+		//dynamic number of players
+		//dont want to use this most of the time, the player count should be set before setting teams, so that it is loaded when the game starts
+		//this is only here for flexibility in case is useful in future
+		if(this.get_bool("playerCountUpdated")){
+			//only does somethign if the game is not currently live
+			gatherGame.setNumPlayers(this.get_s32("numPlayers"));
+			//if the game is currently live this message is ignored
+			this.set_bool("playerCountUpdated", false);
+		}
+
 		//code for detecting new player list/subs
 		if(this.get_bool("teamsSet")){
 			startGathering(this);
@@ -164,16 +175,8 @@ void onTick(CRules@ this){
 			clearGame(this);
 			this.set_bool("clearGame", false);
 		}
-
-		//dynamic number of players
-		int newNumPlayers=this.get_s32("numPlayers");
-		if(newNumPlayers!=gatherGame.defaultNumPlayers){
-			gatherGame.numPlayers=newNumPlayers;
-			this.set_s32("numPlayers",gatherGame.defaultNumPlayers);
-		}
-
 	}
-	
+
 	if(gatherGame !is null){
 		s8 timer = this.get_s8("pauseTimer");
 		if(timer>0 && getGameTime()%getTicksASecond()==0){
