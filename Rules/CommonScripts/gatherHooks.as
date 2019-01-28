@@ -6,7 +6,9 @@ void startGathering(CRules@ this){
 	gatherMatch@ gatherGame = getGatherObject(this);
 	gatherGame.resetGameVars();
 	gatherGame.isGameRunning=true;
-	//this.set_bool("isGameRunning",true);
+
+	//assign player to a seclev that allows them to join when the server is full
+	assignPlayersJoinFullSeclev(gatherGame);
 
 	getNet().server_SendMsg("a gather game is starting!! Players not in this match will be moved to spectator");
 	putAllPlayersIntoTeams(this);
@@ -16,7 +18,31 @@ void clearGame(CRules@ this){
 	gatherMatch@ gatherGame = getGatherObject(this);
 	if(!gatherGame.isGameRunning) return;
 	gatherGame.resetGameVars();
+	removePlayersJoinFullSeclev(gatherGame);
 	getNet().server_SendMsg("the currently running gather game has been ended with no scores given");
+}
+
+void assignPlayersJoinFullSeclev(gatherMatch@ gatherGame) {
+	u32 len = getPlayerCount();
+
+	CSecurity@ security = getSecurity();
+
+	for (uint i = 0; i < len; i++)
+	{
+		CPlayer@ player = getPlayer(i);
+		if(isInMatch(player.getUsername()) && !security.checkAccess_Feature(player, "join_full")){
+			gatherGame.joinFullSeclev.addUser(player.getUsername());
+		}
+	}
+}
+
+void removePlayersJoinFullSeclev(gatherMatch@ gatherGame) {
+	u32 len = getPlayerCount();
+
+	for (uint i = 0; i < len; i++)
+	{
+		gatherGame.joinFullSeclev.removeUser(getPlayer(i).getUsername());
+	}
 }
 
 void scrambleTeams(CRules@ this, bool includeSpectators)
@@ -97,7 +123,7 @@ void onTick(CRules@ this){
 				print("round over -1");
 			}
 		}
-
+		removePlayersJoinFullSeclev(gatherGame);
 		this.set_bool(tagname, true);
 	}
 
@@ -196,6 +222,13 @@ void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 	gatherMatch@ gatherGame=getGatherObject(this);
 	if(gatherGame.isPaused()){
 		player.freeze = true;
+	}
+	if(gatherGame.isGameRunning){
+		if(isInMatch(player.getUsername()) && !getSecurity().checkAccess_Feature(player, "join_full")){
+			gatherGame.joinFullSeclev.addUser(player.getUsername());
+		}
+	} else if (gatherGame.joinFullSeclev !is null) {
+		gatherGame.joinFullSeclev.removeUser(player.getUsername());
 	}
 }
 

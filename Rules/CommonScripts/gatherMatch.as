@@ -72,7 +72,10 @@ shared class gatherMatch
 	int numPlayersReqUnpause;
 	int pauseVotesReq = 3;
 	private bool gamePaused = false;
-	
+
+	string joinFullSeclevString = "joinFull";
+	CSeclev@ joinFullSeclev=null;
+
 	//constructor
 	gatherMatch(CRules@ rules){
 		print("GATHER SERVER STARTED");
@@ -96,7 +99,15 @@ shared class gatherMatch
 		
 		numPlayersReqPause=0;
 		numPlayersReqUnpause=0;
-		
+
+		//full seclev is applied to players when the game starts or after they first join
+		//they will need not be able to join full if they have not already joined since the game was created
+		//this is not perfect, but is okay. Someone will just need to let them on if they want the game to start
+		//they should be able to join no matter what if they disconnect mid game, which is the main goal of this feature
+		@joinFullSeclev = getSecurity().getSeclev(joinFullSeclevString);
+		if(joinFullSeclev is null) {
+			print("WARNING: join full seclev not found, gather players will not be able to join a full server!");
+		}
 	}
 	
 	void setLive(bool val)
