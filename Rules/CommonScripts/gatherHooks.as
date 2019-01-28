@@ -58,13 +58,13 @@ void scrambleTeams(CRules@ this, bool includeSpectators)
 	PlayerInfo@[] playerInfos = core.players;
 	u32 len = playerInfos.length;
 	string [] players;
-	
+
 	//make an array of usernames
 	for (u32 i = 0; i < len; i++)
 	{
 		players.push_back(playerInfos[i].username);
 	}
-	
+
 	//change the order of the player list
 	for (u32 i = 0; i < len; i++)
 	{
@@ -74,16 +74,16 @@ void scrambleTeams(CRules@ this, bool includeSpectators)
 		players[index] = players[i];
 		players[i] = p;
 	}
-	
+
 	getNet().server_SendMsg("Scrambling the teams!");
-	
+
 	int numTeams = this.getTeamsCount();
 	int team = XORRandom(128) % numTeams;
 	//now just go through the player list and alternate between each team
 	for (u32 i = 0; i < len; i++)
 	{
 		CPlayer@ p = getPlayerByUsername(players[i]);
-		
+
 		if (includeSpectators || p.getTeamNum() != this.getSpectatorTeamNum())
 		{
 			int tempteam = team++ % numTeams;
@@ -184,7 +184,7 @@ void onTick(CRules@ this){
 			this.Sync("pauseTimer", true);
 			if(timer<=1) gatherGame.pauseGame();
 		}
-		
+
 		timer = this.get_s8("unpauseTimer");
 		if(timer>0 && getGameTime()%getTicksASecond()==0){
 			this.set_s8("unpauseTimer", timer-1);
@@ -258,9 +258,9 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 		gatherMatch@ gatherGame = getGatherObject(this);
 		if(gatherGame !is null){
 			int numSubVotesTemp=0;
-			
+
 			if(inputtext=="!ready" || inputtext=="!r"){
-				
+
 				if(!isInMatch(player.getUsername()) && gatherGame.isGameRunning ){
 					getNet().server_SendMsg("you cannot do that if you are not in the game "+player.getUsername());
 					return true;
@@ -290,7 +290,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					return true;
 				}
 
-				
+
 			}else if(inputtext=="!unready" || inputtext=="!u" || inputtext=="!ur"){
 
 				if(!isInMatch(player.getUsername()) && gatherGame.isGameRunning){
@@ -379,7 +379,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				if(isInTeam(0, player.getUsername())) getNet().server_SendMsg("you are in the blue team "+player.getUsername());
 				else if (isInTeam(1, player.getUsername())) getNet().server_SendMsg("you are in the red team "+player.getUsername());
 				else getNet().server_SendMsg("you are not playing in this game "+player.getUsername());
-				
+
 				return true;
 			}else if(inputtext=="!veto"){
 
@@ -415,7 +415,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 					gatherGame.requestSub(player.getUsername());
 					return true;
 				}
-				//numSubVotesTemp = 
+				//numSubVotesTemp =
 				gatherGame.addSubVote(inputtext.substr(6,inputtext.size()),player.getUsername());
 				/*if(numSubVotesTemp==-1){
 					getNet().server_SendMsg("You have already voted to sub this player "+player.getUsername()+"!");
@@ -491,7 +491,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				if(giveWinStatus==-1){
 					getNet().server_SendMsg("you have already voted to givewin to that team");
 				}
-				
+
 				return true;
 			}else if(inputtext=="!resetscore"){
 				if(getSecurity().checkAccess_Feature(player, "admin_color")){
@@ -611,7 +611,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				}else{
 					getNet().server_SendMsg("vote to paused game counted ("+gatherGame.numPlayersReqPause+"/"+gatherGame.pauseVotesReq+")");
 				}
-				
+
 				if(gatherGame.numPlayersReqPause >= gatherGame.pauseVotesReq)
 				{
 					initiatePause(this);
@@ -633,7 +633,7 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 				}else{
 					getNet().server_SendMsg("vote to unpause game counted ("+gatherGame.numPlayersReqUnpause+"/"+gatherGame.pauseVotesReq+")");
 				}
-				
+
 				if(gatherGame.numPlayersReqUnpause >= gatherGame.pauseVotesReq)
 				{
 					initiateUnpause(this);
@@ -648,10 +648,10 @@ bool onServerProcessChat( CRules@ this, const string& in text_in, string& out te
 
 				else
 					getNet().server_SendMsg("invalid use of !setPlayers <numPlayers>, numPlayers must be an even integer");
-				
+
 				return true;
 			}*/			//dont need this if can just force start ready as admin
-			
+
 			else if(inputtext=="!pos")
 			{	//for debugging
 				Vec2f playerpos = player.getBlob().getPosition();

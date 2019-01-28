@@ -16,7 +16,6 @@ shared class giveWinVoteObj
 
 shared class gatherMatch
 {
-	
 	int defaultNumPlayers = 10;
 
 	int numPlayers=defaultNumPlayers;
@@ -51,7 +50,7 @@ shared class gatherMatch
 	int numPlayersVeto;
 	int numRedPlayersReady;
 	int numBluePlayersReady;
-	
+
 	int numPlayersReqScramble;
 	string[] playersReqScramble(numPlayers);
 
@@ -95,9 +94,9 @@ shared class gatherMatch
 		blueGiveWinVotes=0;
 		redGiveWinVotes=0;
 		drawGiveWinVotes=0;
-		
+
 		numPlayersWithSub=0;
-		
+
 		numPlayersReqPause=0;
 		numPlayersReqUnpause=0;
 
@@ -112,16 +111,16 @@ shared class gatherMatch
 
 		rules.set_s32("numPlayers", this.defaultNumPlayers);
 	}
-	
+
 	void setLive(bool val)
 	{
 		this.isGameLive=val;
-		
+
 		//so the client can show the game status onRender()
 		CRules@ rules = getRules();
 		rules.set_bool("isLive", val);
 		rules.Sync("isLive", true);
-		
+
 		if(true==val)
 		{
 			//set the var to false first because an unchanged variable isnt synced --- bad impl imo >:(
@@ -131,7 +130,7 @@ shared class gatherMatch
 			rules.Sync("gatherStartSound", true);
 		}
 	}
-	
+
 	bool isLive()
 	{
 		return this.isGameLive;
@@ -174,28 +173,28 @@ shared class gatherMatch
 		}
 		return false;
 	}
-	
+
 	bool hasReqRestart(string userName){
 		for(int i=0;i<numPlayersReqRestart;i++){
 			if(userName==playersReqRestart[i]) return true;
 		}
 		return false;
 	}
-	
+
 	bool hasVeto(string userName){
 		for(int i=0;i<numPlayersVeto;i++){
 			if(userName==playersVeto[i]) return true;
 		}
 		return false;
 	}
-	
+
 	bool hasReqScramble(string userName){
 		for(int i=0;i<numPlayersReqScramble;i++){
 			if(userName==playersReqScramble[i]) return true;
 		}
 		return false;
 	}
-	
+
 	bool hasReqPause(string username){
 		for(int i=0;i<numPlayersReqPause;i++){
 			if(username==playersReqPause[i]) return true;
@@ -208,7 +207,7 @@ shared class gatherMatch
 		}
 		return false;
 	}
-	
+
 	int setPlayerReady(string username,int teamNum){
 		if(!isReady(username)){
 			gatherPlayer tempPlayer;
@@ -227,7 +226,7 @@ shared class gatherMatch
 		}
 		return 1;	//player is already ready
 	}
-	
+
 	int setPlayerUnready(string username){
 		for(int i=0; i< numPlayersReady; i++){
 			if(playersReady[i].username==username){
@@ -251,7 +250,7 @@ shared class gatherMatch
 		}
 		return 1;	//player not found in playersReady (they arent ready)
 	}
-	
+
 	void whoReady(){		//prints the names of all players who are ready
 	string temp="";
 		for(int i=0; i< numPlayersReady; i++){
@@ -260,7 +259,7 @@ shared class gatherMatch
 		}
 		getNet().server_SendMsg("("+ numPlayersReady +"/"+ numPlayers + ") players ready: " + temp);
 	}
-	
+
 	void whoNotReady(){
 
 		//if no bot controlled game running, just check who is on a team and not ready
@@ -292,7 +291,7 @@ shared class gatherMatch
 			string[]@ redPlayers;
 			string blueNotReadyString="";
 			string redNotReadyString="";
-			
+
 			if(!getRules().get("blueTeam", @bluePlayers) || bluePlayers is null){
 	        		error("failed to get blue team players (command who not ready)");
 	        		return;
@@ -313,7 +312,7 @@ shared class gatherMatch
 		}
 
 	}
-	
+
 	void whoIsReqRestart(){		//prints the names of all players who have requested a restart
 	string temp="";
 		for(int i=0; i< numPlayersReqRestart; i++){
@@ -322,7 +321,7 @@ shared class gatherMatch
 		}
 		getNet().server_SendMsg("Players that have requested restart: " + temp);
 	}
-	
+
 	int addRestartVote(string userName){
 		if(!hasReqRestart(userName)){
 			playersReqRestart.insertAt(numPlayersReqRestart,userName);
@@ -331,7 +330,7 @@ shared class gatherMatch
 		}
 		return 1;	//player has already requested restart
 	}
-	
+
 	int addScrambleVote(string userName){
 		if(!hasReqScramble(userName)){
 			playersReqScramble.insertAt(numPlayersReqScramble,userName);
@@ -379,17 +378,17 @@ shared class gatherMatch
 		blueTeamReady.clear();
 		numRedPlayersReady=0;
 		numBluePlayersReady=0;
-		
+
 		playersReqScramble.clear();
 		numPlayersReqScramble=0;
-		
+
 		playersReqPause.clear();
 		playersReqUnpause.clear();
 		numPlayersReqPause=0;
 		numPlayersReqUnpause=0;
 		unpauseGame();
 	}
-	
+
 	void resetRoundVars(){
 		setLive(false);
 		playersReady.clear();
@@ -402,7 +401,7 @@ shared class gatherMatch
 		blueTeamReady.clear();
 		numRedPlayersReady=0;
 		numBluePlayersReady=0;
-		
+
 		playersReqScramble.clear();
 		numPlayersReqScramble=0;
 
@@ -410,14 +409,14 @@ shared class gatherMatch
 		blueGiveWinVotes=0;
 		redGiveWinVotes=0;
 		drawGiveWinVotes=0;
-		
+
 		playersReqPause.clear();
 		playersReqUnpause.clear();
 		numPlayersReqPause=0;
 		numPlayersReqUnpause=0;
 		unpauseGame();
 	}
-	
+
 	void resetGameVars(){
 		isGameRunning=false;
 		//getRules().set_bool("isGameRunning",false);
@@ -444,19 +443,19 @@ shared class gatherMatch
 		roundsPlayed=0;
 		playersWithSub.clear();
 		numPlayersWithSub=0;
-		
+
 		playersReqPause.clear();
 		playersReqUnpause.clear();
 		numPlayersReqPause=0;
 		numPlayersReqUnpause=0;
 		unpauseGame();
 	}
-	
+
 	void resetBuildTimeEndVars(){
 		playersVeto.clear();
 		numPlayersVeto=0;
 	}
-	
+
 	void restartMap(){
 		LoadMap(getMap().getMapName());
 	}
@@ -464,7 +463,7 @@ shared class gatherMatch
 	void nextMap(){
 		LoadNextMap();
 	}
-	
+
 	void sayScore(){
 		getNet().server_SendMsg("Blue Team: "+blueWins+" Red Team: "+redWins);
 	}
@@ -493,7 +492,7 @@ shared class gatherMatch
 	                getPlayer(i).setDeaths(0);
         	}
 	}
-	
+
 	int addVetoVote(string userName){
 		if(!hasVeto(userName)){
 			playersVeto.insertAt(numPlayersVeto,userName);
@@ -502,7 +501,7 @@ shared class gatherMatch
 		}
 		return 1;	//player has already requested to veto
 	}
-	
+
 	void addSubVote(string playerToSub, string playerReqSub){
 
 		//if they are requesting to sub themselves then just add a sub
@@ -527,7 +526,7 @@ shared class gatherMatch
 		return 1;		//now one player is requesting the sub (returns num players requesting sub for this player)*/
 		return;
 	}
-	
+
 	void removePlayersSubVotes(string username){
 		for(int i=0;i<numPlayersWithSub;i++){
 			if (playersWithSub[i].username==username){
@@ -535,18 +534,18 @@ shared class gatherMatch
 			}
 		}
 	}
-	
+
 	void requestSub(string username){
 		if(!this.isLive()) setPlayerUnready(username);
 		//removePlayersSubVotes(username);
 		tcpr("[Gather] RSUB "+username);
 		return;
 	}
-	
+
 	void startRound(){
 		restartMap();			//send message to restart map
 		getNet().server_SendMsg("ROUND IS NOW LIVE!!!");
-		
+
 		u32 len = getPlayerCount();
 		int spectatorTeamNum = getRules().getSpectatorTeamNum();
 		string tempRed="red:";
@@ -566,15 +565,15 @@ shared class gatherMatch
 				}
 			}
 		}
-		
+
 		tcpr("[Gather] ROUNDSTARTED: "+tempBlue+" "+tempRed);
 
 		resetScoreboard();
 		getNet().server_SendMsg("The scoreboard has been reset");
-		
+
 		setStartRoundVars();
 	}
-	
+
 	int roundOver(int winningTeam){
 		if(!this.isLive())return -1;			//game isnt live yet
 
@@ -588,11 +587,11 @@ shared class gatherMatch
 			redWins++;
 			if(redWins<((numRounds/2)+1)) tcpr("[Gather] Red round won");
 			getNet().server_SendMsg("Round is over! Red Team has won!");
-		
+
 		}else if(winningTeam==-1){
 			tcpr("[Gather] round drawn");
 			getNet().server_SendMsg("Round is over! its a draw!");
-		
+
 		}	//if winning team == -1 its a draw
 
 		//TODO: this only works if there is an odd number of rounds?
@@ -651,7 +650,7 @@ shared class gatherMatch
 		}
 		return -1;	//player has already voted to givewin for that team
 	}
-	
+
 	int addPauseVote(string username){
 		if(!this.hasReqPause(username)){
 			playersReqPause.insertAt(numPlayersReqPause,username);
@@ -668,11 +667,11 @@ shared class gatherMatch
 		}
 		return 1;	//player has already voted
 	}
-	
+
 	bool isPaused(){
 		return this.gamePaused;
 	}
-	
+
 	void pauseGame(){
 		this.gamePaused = true;
 		this.freezePlayers();
@@ -681,7 +680,7 @@ shared class gatherMatch
 		this.playersReqUnpause.clear();
 		this.numPlayersReqUnpause=0;
 	}
-	
+
 	void unpauseGame(){
 		this.unfreezePlayers();
 		this.gamePaused = false;
@@ -690,7 +689,7 @@ shared class gatherMatch
 		this.playersReqPause.clear();
 		this.numPlayersReqPause=0;
 	}
-	
+
 	void freezePlayers(){
 		u32 len = getPlayerCount();
 		for (uint i = 0; i < len; i++)
@@ -698,7 +697,7 @@ shared class gatherMatch
 			getPlayer(i).freeze = true;
 		}
 	}
-	
+
 	void unfreezePlayers(){
 		u32 len = getPlayerCount();
 		for (uint i = 0; i < len; i++)
@@ -717,4 +716,3 @@ gatherMatch@ getGatherObject(CRules@ this){
 	print("Error getting gather game object");
 	return null;
 }
-
