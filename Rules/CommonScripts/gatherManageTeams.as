@@ -24,14 +24,21 @@ void updateTeams(){
 bool isInTeam(int team, string username){			//check if the player should be in the team
 	getRules().get("blueTeam", @bluePlayers);
 	getRules().get("redTeam", @redPlayers);
-	if(bluePlayers is null || redPlayers is null) return false;
 
 	if(team==0){
 		if(bluePlayers is null) return false;
-		if(bluePlayers.find(username)>=0) return true;
+		for(int i=0; i<bluePlayers.length; i++) {
+			if(username.toLower() == bluePlayers[i].toLower()) {
+				return true;
+			}
+		}
 	}else if(team==1){
 		if(redPlayers is null) return false;
-		if(redPlayers.find(username)>=0) return true;
+		for(int i=0; i<redPlayers.length; i++) {
+			if(username.toLower() == redPlayers[i].toLower()) {
+				return true;
+			}
+		}
 	}
 	return false;
 }
