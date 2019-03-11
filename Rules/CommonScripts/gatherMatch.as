@@ -169,41 +169,41 @@ shared class gatherMatch
 
 	bool isReady(string username){
 		for(int i=0;i<numPlayersReady;i++){
-			if(username==playersReady[i].username) return true;
+			if(username.toLower()==playersReady[i].username.toLower()) return true;
 		}
 		return false;
 	}
 
 	bool hasReqRestart(string userName){
 		for(int i=0;i<numPlayersReqRestart;i++){
-			if(userName==playersReqRestart[i]) return true;
+			if(userName.toLower()==playersReqRestart[i].toLower()) return true;
 		}
 		return false;
 	}
 
 	bool hasVeto(string userName){
 		for(int i=0;i<numPlayersVeto;i++){
-			if(userName==playersVeto[i]) return true;
+			if(userName.toLower()==playersVeto[i].toLower()) return true;
 		}
 		return false;
 	}
 
 	bool hasReqScramble(string userName){
 		for(int i=0;i<numPlayersReqScramble;i++){
-			if(userName==playersReqScramble[i]) return true;
+			if(userName.toLower()==playersReqScramble[i].toLower()) return true;
 		}
 		return false;
 	}
 
 	bool hasReqPause(string username){
 		for(int i=0;i<numPlayersReqPause;i++){
-			if(username==playersReqPause[i]) return true;
+			if(username.toLower()==playersReqPause[i].toLower()) return true;
 		}
 		return false;
 	}
 	bool hasReqUnpause(string username){
 		for(int i=0;i<numPlayersReqUnpause;i++){
-			if(username==playersReqUnpause[i]) return true;
+			if(username.toLower()==playersReqUnpause[i].toLower()) return true;
 		}
 		return false;
 	}
