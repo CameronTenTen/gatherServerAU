@@ -113,7 +113,7 @@ void onTick(CBlob@ this)
 			setOpen(this, true, ((pos - other_pos) * direction) < 0.0f);
 		}
 	}
-	
+
 	u16 touch = this.get_u16("time since touched");
 	u16 delay = this.get_u16("close delay");
 	if(touch<delay)
@@ -121,7 +121,7 @@ void onTick(CBlob@ this)
 		this.set_u16("time since touched",touch+this.getCurrentScript().tickFrequency);
 		return;
 	}
-		
+
 	// close it
 	if (isOpen(this) && canClose(this))
 	{
@@ -182,7 +182,7 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 
 	if (customData == Hitters::builder)
 		damage *= 2;
-	if (customData == Hitters::drill)                //Hitters::saw is the drill hitter.... why
+	if (customData == Hitters::drill)
 		damage *= 2;
 	if (customData == Hitters::bomb)
 		damage *= 2;

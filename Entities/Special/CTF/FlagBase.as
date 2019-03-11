@@ -101,7 +101,7 @@ void onTick(CBlob@ this)
 
 					this.server_AttachTo(b, "FLAG");
 					b.SetFacingLeft(this.isFacingLeft());
-			}
+				}
 			}
 			else
 			{
@@ -110,7 +110,7 @@ void onTick(CBlob@ this)
 				this.getMap().RemoveSectorsAtPosition(pos, "no build", this.getNetworkID());
 				//this.getMap().server_AddSector(pos + Vec2f(-12, -8), pos + Vec2f(12, 16), "no build", "", this.getNetworkID());
                 this.server_Die();
-            
+
 			}
 		}
 		else
@@ -172,16 +172,8 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 			{
 				blob.server_AttachTo(b, "PICKUP"); //attach to player
 
-				CPlayer@ player = blob.getPlayer();
-
-				string name = "someone";
-				if (player !is null)
-				{
-					name = player.getUsername();
-				}
-
 				CBitStream params;
-				params.write_string(name);
+				params.write_u16(blob.getNetworkID());
 
 				b.SendCommand(b.getCommandID("pickup"), params);
 			}
@@ -198,16 +190,8 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 			//smash the flag
 			this.server_Hit(b, b.getPosition(), Vec2f(), 5.0f, 0xfa, true);
 
-			CPlayer@ player = blob.getPlayer();
-
-			string name = "someone";
-			if (player !is null)
-			{
-				name = player.getUsername();
-			}
-
 			CBitStream params;
-			params.write_string(name);
+			params.write_u16(blob.getNetworkID());
 			b.SendCommand(b.getCommandID("capture"), params);
 		}
 	}
