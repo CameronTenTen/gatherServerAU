@@ -485,11 +485,11 @@ shared class gatherMatch
 
 	void resetScoreboard(){
  		CPlayer@ player;
-	        for(uint i=0; i<getPlayerCount(); i++ ){
-	                getPlayer(i).setScore(0);
-	                getPlayer(i).setKills(0);
-	                getPlayer(i).setDeaths(0);
-        	}
+		for(uint i=0; i<getPlayerCount(); i++ ){
+			getPlayer(i).setScore(0);
+			getPlayer(i).setKills(0);
+			getPlayer(i).setDeaths(0);
+		}
 	}
 
 	int addVetoVote(string userName){
